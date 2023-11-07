@@ -1,0 +1,11 @@
+dist/
+node_modules/
+.DS_Store
+
+logs
+*.logs
+
+
+
+.vscode/*
+!.vscode/extensions.json

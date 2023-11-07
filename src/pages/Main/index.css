@@ -1,0 +1,3 @@
+.ai-container {
+  @apply w-full h-[100vh] p-3;
+}

@@ -1,0 +1,11 @@
+.card {
+  @apply rounded-lg p-3 h-full;
+}
+
+.ai-router-title {
+  @apply text-base;
+}
+
+.ai-primary-button {
+  @apply w-full !bg-aiBlue opacity-[85];
+}

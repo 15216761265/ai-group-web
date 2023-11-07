@@ -1,0 +1,6 @@
+.ai-group-login-modal {
+  @apply flex items-center justify-center;
+  .ai-group-login-modal-title {
+    @apply ml-2 font-normal;
+  }
+}
