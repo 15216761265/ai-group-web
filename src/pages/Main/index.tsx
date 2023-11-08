@@ -3,6 +3,9 @@ import { Layout } from "antd";
 import LoginPage from "@pages/Login";
 import NavBar, { UserItems, CreateItems } from "@pages/NavBar";
 import "./index.css";
+import HomePage from "@pages/Home";
+import ChatPage from "@pages/Chat";
+import PaintPage from "@pages/Paint";
 
 const { Content } = Layout;
 
@@ -16,9 +19,9 @@ const Main = () => {
         <Content>
           <Routes>
             <Route path="" element={<LoginPage />}></Route>
-            <Route path="/home" element={<LoginPage />}></Route>
-            <Route path={"/" + UserItems.CHAT} element={<LoginPage />}></Route>
-            <Route path={"/" + UserItems.PAINT} element={<LoginPage />}></Route>
+            <Route path="/home" element={<HomePage />}></Route>
+            <Route path={"/" + UserItems.CHAT} element={<ChatPage />}></Route>
+            <Route path={"/" + UserItems.PAINT} element={<PaintPage />}></Route>
             <Route path="/console">
               <Route
                 path={CreateItems.MYAPP}

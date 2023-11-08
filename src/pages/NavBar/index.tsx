@@ -1,5 +1,16 @@
 import { Menu, Divider } from "antd";
-import { LogoIcon } from "@components/Lib/Icon";
+import {
+  BackHomeIcon,
+  ChatIcon,
+  CreateIcon,
+  DashboardIcon,
+  HomeIcon,
+  IntegrationIcon,
+  LibraryIcon,
+  LogoIcon,
+  MyAccountIcon,
+  PaintIcon,
+} from "@components/Lib/Icon";
 import { useCallback } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./index.css";
@@ -27,7 +38,7 @@ const userItems = [
         首页
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <HomeIcon />,
     key: UserItems.HOME,
   },
   {
@@ -37,7 +48,7 @@ const userItems = [
         对话
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <ChatIcon />,
     key: UserItems.CHAT,
   },
   {
@@ -47,7 +58,7 @@ const userItems = [
         绘画
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <PaintIcon />,
     key: UserItems.PAINT,
   },
   {
@@ -57,7 +68,7 @@ const userItems = [
         创建
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <CreateIcon />,
     key: UserItems.CREATE,
   },
 ];
@@ -70,7 +81,7 @@ const createItems = [
         我的应用
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <DashboardIcon />,
     key: CreateItems.MYAPP,
   },
   {
@@ -80,7 +91,7 @@ const createItems = [
         知识库
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <LibraryIcon />,
     key: CreateItems.LIBRARY,
   },
   {
@@ -93,7 +104,7 @@ const createItems = [
         应用接入
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <IntegrationIcon />,
     key: CreateItems.APPINTEGRATION,
   },
   {
@@ -106,7 +117,7 @@ const createItems = [
         我的账户
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <MyAccountIcon />,
     key: CreateItems.MYACCOUNT,
   },
   {
@@ -116,7 +127,7 @@ const createItems = [
         返回首页
       </Link>
     ),
-    icon: <LogoIcon></LogoIcon>,
+    icon: <BackHomeIcon />,
     key: CreateItems.GOBACK,
   },
 ];
