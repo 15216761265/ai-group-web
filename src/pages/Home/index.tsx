@@ -1,5 +1,11 @@
+import RouteHeader from "@components/RouteHeader";
+
 const HomePage = () => {
-  return <div>Home</div>;
+  return (
+    <div>
+      <RouteHeader></RouteHeader>
+    </div>
+  );
 };
 
 export default HomePage;

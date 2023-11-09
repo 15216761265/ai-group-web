@@ -18,7 +18,7 @@ const Main = () => {
       <Layout className="col-span-3 card">
         <Content>
           <Routes>
-            <Route path="" element={<LoginPage />}></Route>
+            <Route path="" element={<HomePage />}></Route>
             <Route path="/home" element={<HomePage />}></Route>
             <Route path={"/" + UserItems.CHAT} element={<ChatPage />}></Route>
             <Route path={"/" + UserItems.PAINT} element={<PaintPage />}></Route>
