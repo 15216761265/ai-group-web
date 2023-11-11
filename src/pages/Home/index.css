@@ -1,0 +1,22 @@
+.ai-group-home-content {
+  .ai-group-home-filter {
+  }
+  .ai-group-home-role-list {
+    @apply h-[calc(100%-80px)] overflow-auto;
+    .ai-group-home-role-list-content {
+      @apply flex flex-wrap pr-4 overflow-auto;
+      .ai-group-home-role-list-card {
+        @apply m-2 rounded-lg overflow-hidden border border-[#eff0f0] bg-white cursor-pointer;
+        @screen _lg {
+          @apply w-[calc(25%-18px)] h-[285px];
+        }
+        .ai-group-home-role-list-card-img {
+          @apply w-full h-[calc(100%-100px)];
+        }
+        .ai-group-home-role-list-card-desc {
+          @apply px-2 overflow-hidden;
+        }
+      }
+    }
+  }
+}

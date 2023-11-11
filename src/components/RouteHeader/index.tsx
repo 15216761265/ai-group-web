@@ -36,7 +36,10 @@ const RouteHeader = () => {
         <div className="title">{getTitle()}</div>
         <div>
           <Dropdown menu={{ items: avatarMenu }}>
-            <Avatar style={{ backgroundColor: "#1677ff" }}>Icon</Avatar>
+            <div>
+              <Avatar style={{ backgroundColor: "#1677ff" }}>Icon</Avatar>
+              <div>青山相待</div>
+            </div>
           </Dropdown>
         </div>
       </div>
