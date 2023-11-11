@@ -1,5 +1,12 @@
 .ai-group-home-content {
   .ai-group-home-filter {
+    @apply my-2;
+    .ai-group-home-filter-normal {
+      @apply px-2 py-1 text-base font-medium cursor-pointer rounded-md min-w-[30px];
+    }
+    .ai-group-home-filter-active {
+      @apply bg-[#3f9eff] text-white;
+    }
   }
   .ai-group-home-role-list {
     @apply h-[calc(100%-80px)] overflow-auto;
@@ -11,7 +18,7 @@
           @apply w-[calc(25%-18px)] h-[285px];
         }
         .ai-group-home-role-list-card-img {
-          @apply w-full h-[calc(100%-100px)];
+          @apply w-full h-[calc(100%-100px)] overflow-hidden;
         }
         .ai-group-home-role-list-card-desc {
           @apply px-2 overflow-hidden;

@@ -19,19 +19,34 @@ const LoginPage = () => {
   const [activeStatus, setActiveStatus] = useState(LoginStatus.LOGIN);
   const [activeTab, setActiveTab] = useState("wechat");
 
-  const handleLogin = () => {
-    const loginData = loginForm[0].getFieldsValue();
-    console.log("Login date", loginData);
+  const handleLogin = async () => {
+    try {
+      await loginForm[0].validateFields();
+      const loginData = loginForm[0].getFieldsValue();
+      console.log("Login date", loginData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleRegister = () => {
-    const registerData = registerForm[0].getFieldsValue();
-    console.log("register data", registerData);
+  const handleRegister = async () => {
+    try {
+      await registerForm[0].validateFields();
+      const registerData = registerForm[0].getFieldsValue();
+      console.log("register data", registerData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleForget = () => {
-    const forgetData = forgetForm[0].getFieldsValue();
-    console.log("forget data", forgetData);
+  const handleForget = async () => {
+    try {
+      await forgetForm[0].validateFields();
+      const forgetData = forgetForm[0].getFieldsValue();
+      console.log("forget data", forgetData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -64,20 +79,28 @@ const LoginPage = () => {
       {activeStatus === LoginStatus.REGISTER && (
         <div className="mb-2">
           <Form form={registerForm[0]} layout="vertical">
-            <Item name="registerPhone" label="手机号" required>
+            <Item
+              name="registerPhone"
+              label="手机号"
+              rules={[{ required: true, message: "请输入手机号" }]}
+            >
               <Input placeholder="请输入手机号" />
             </Item>
-            <Item name="registerPwd" label="密码" required>
+            <Item
+              name="registerPwd"
+              label="密码"
+              rules={[{ required: true, message: "请输入密码" }]}
+            >
               <Input placeholder="请输入密码" />
             </Item>
             <div className="grid grid-cols-3 gap-1 pb-6">
               <Item
                 name="registerVerify"
                 label="验证码"
-                required
+                rules={[{ required: true, message: "请输入验证码" }]}
                 className="col-span-2 mb-0"
               >
-                <Input placeholder="请输入密码" />
+                <Input placeholder="请输入验证码" />
               </Item>
 
               <Button type="primary" className="ai-primary-button self-end">
@@ -116,10 +139,18 @@ const LoginPage = () => {
               children: (
                 <div className="mb-2">
                   <Form form={loginForm[0]} layout="vertical">
-                    <Item name="loginPhone" label="手机号" required>
+                    <Item
+                      name="loginPhone"
+                      label="手机号"
+                      rules={[{ required: true, message: "请输入手机号" }]}
+                    >
                       <Input placeholder="请输入手机号" />
                     </Item>
-                    <Item name="loginpwd" label="密码" required>
+                    <Item
+                      name="loginpwd"
+                      label="密码"
+                      rules={[{ required: true, message: "请输入密码" }]}
+                    >
                       <Input placeholder="请输入密码" />
                     </Item>
                   </Form>
@@ -142,20 +173,28 @@ const LoginPage = () => {
       {activeStatus === LoginStatus.FORGRT && (
         <div className="mb-2">
           <Form form={forgetForm[0]} layout="vertical">
-            <Item name="registerPhone" label="手机号" required>
+            <Item
+              name="registerPhone"
+              label="手机号"
+              rules={[{ required: true, message: "请输入手机号" }]}
+            >
               <Input placeholder="请输入手机号" />
             </Item>
-            <Item name="registerpwd" label="新密码" required>
+            <Item
+              name="registerpwd"
+              label="新密码"
+              rules={[{ required: true, message: "请输入新密码" }]}
+            >
               <Input placeholder="请输入新密码" />
             </Item>
             <div className="grid grid-cols-3 gap-1 pb-6">
               <Item
                 name="registerVerify"
                 label="验证码"
-                required
+                rules={[{ required: true, message: "请输入验证码" }]}
                 className="col-span-2 mb-0"
               >
-                <Input placeholder="请输入密码" />
+                <Input placeholder="请输入验证码" />
               </Item>
 
               <Button type="primary" className="ai-primary-button self-end">

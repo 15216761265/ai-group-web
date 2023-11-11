@@ -11,7 +11,7 @@ import {
   MyAccountIcon,
   PaintIcon,
 } from "@components/Lib/Icon";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import "./index.css";
 
@@ -134,6 +134,11 @@ const createItems = [
 
 const NavBar = () => {
   const { pathname } = useLocation();
+  const [selectedKeys, setSelectKeys] = useState<string[]>(["home"]);
+
+  useEffect(() => {
+    //TODO: to make the map to nav
+  }, [pathname]);
 
   const getNavBarMenuItems = useCallback(() => {
     return pathname.indexOf("console") !== -1 ? createItems : userItems;
@@ -146,7 +151,12 @@ const NavBar = () => {
         <div className="ml-3">AI Group</div>
       </div>
       <Divider className="my-4" />
-      <Menu items={getNavBarMenuItems()} className="ai-antd-menu"></Menu>
+      <Menu
+        items={getNavBarMenuItems()}
+        className="ai-antd-menu"
+        selectedKeys={selectedKeys}
+        onSelect={({ selectedKeys }) => setSelectKeys(selectedKeys)}
+      ></Menu>
     </div>
   );
 };

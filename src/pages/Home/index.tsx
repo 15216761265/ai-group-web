@@ -1,16 +1,25 @@
 import CommonPagination from "@components/Pagination";
 import RouteHeader from "@components/RouteHeader";
-import { Button, Input, Pagination } from "antd";
+import { Input, Pagination } from "antd";
 import useGetData from "./hooks/useGetData";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "./index.css";
 import Card from "./component/card";
-
-const Clssification = [{}];
+import FilterModalList from "./component/filterModal";
 
 const HomePage = () => {
-  const { currentPage, setCurrentPage, totalItems, pageSize, roleList } =
-    useGetData();
+  const {
+    currentPage,
+    setCurrentPage,
+    totalItems,
+    pageSize,
+    roleList,
+    roleModalFilterList,
+    selectedGroupId,
+    setSlectedGroupId,
+    selectActionType,
+    setSelectActionType,
+  } = useGetData();
 
   return (
     <div>
@@ -19,15 +28,13 @@ const HomePage = () => {
         <Input placeholder="请输入搜索内容"></Input>
       </div>
       <div className="ai-group-home-content">
-        <div className="ai-group-home-filter">
-          <div className="flex items-center">
-            <div>类别</div>
-            <Button>全部</Button>
-          </div>
-          <div>
-            <div>排序</div>
-          </div>
-        </div>
+        <FilterModalList
+          selectedGroupId={selectedGroupId}
+          setSlectedGroupId={setSlectedGroupId}
+          roleModalFilterList={roleModalFilterList}
+          selectActionType={selectActionType}
+          setSelectActionType={setSelectActionType}
+        />
         <div className="ai-group-home-role-list">
           <div className="ai-group-home-role-list-content">
             {roleList?.map((list, index) => (

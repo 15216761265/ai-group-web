@@ -19,6 +19,13 @@ export default interface HomeRoleListInterface {
   navigateLastPage: number;
 }
 
+export interface HomeRoleModalList {
+  id: string;
+  name: string;
+  description?: string;
+  aiRoles?: null;
+}
+
 export interface HomeRoleList {
   id: number;
   code: string;

@@ -1,6 +1,12 @@
-import { useGetHomeRoleList } from "@apis/apiHooks/Home";
+import {
+  useGetHomeRoleList,
+  useGetHomeRoleModalList,
+} from "@apis/apiHooks/Home";
 import { useEffect, useState } from "react";
-import HomeRoleListInterface, { HomeRoleList } from "@modals/HomeRoleList";
+import HomeRoleListInterface, {
+  HomeRoleList,
+  HomeRoleModalList,
+} from "@modals/HomeRoleList";
 const MockData: HomeRoleListInterface = {
   total: 627,
   list: [
@@ -1421,12 +1427,82 @@ const MockData: HomeRoleListInterface = {
   navigateLastPage: 1,
 };
 
+const Clssification: HomeRoleModalList[] = [
+  {
+    id: "1",
+    name: "工作",
+    description: "工作相关",
+    aiRoles: null,
+  },
+  {
+    id: "2",
+    name: "生活",
+    description: "生活相关",
+    aiRoles: null,
+  },
+  {
+    id: "4",
+    name: "客服",
+    description: "客服助手",
+    aiRoles: null,
+  },
+  {
+    id: "9",
+    name: "数字分身",
+    description: "数字分身",
+    aiRoles: null,
+  },
+  {
+    id: "5",
+    name: "动漫",
+    description: "动漫人物",
+    aiRoles: null,
+  },
+  {
+    id: "7",
+    name: "娱乐",
+    description: "娱乐角色",
+    aiRoles: null,
+  },
+  {
+    id: "8",
+    name: "绘画",
+    description: "绘画",
+    aiRoles: null,
+  },
+  {
+    id: "3",
+    name: "其它",
+    description: "其它",
+    aiRoles: null,
+  },
+];
 function useGetData() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(50);
   const [pageSize, setPageSize] = useState(20);
   const [roleList, setRoleList] = useState<HomeRoleList[]>();
+  const [roleModalFilterList, setRoleModalFilterList] =
+    useState<HomeRoleModalList[]>();
+  const [selectedGroupId, setSlectedGroupId] = useState<string | undefined>();
+  const [selectActionType, setSelectActionType] = useState<
+    string | undefined
+  >();
   const getRoleList = useGetHomeRoleList();
+  const getRoleModalFilterList = useGetHomeRoleModalList();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // const result = await getRoleModalFilterList({  });
+        const result = Clssification;
+        setRoleModalFilterList(result);
+      } catch (error) {
+        //TODO: common tip
+        console.error(error);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -1452,6 +1528,11 @@ function useGetData() {
     totalItems,
     pageSize,
     roleList,
+    roleModalFilterList,
+    selectedGroupId,
+    setSlectedGroupId,
+    selectActionType,
+    setSelectActionType,
   };
 }
 
