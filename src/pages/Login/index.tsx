@@ -2,6 +2,11 @@ import { Button, Form, Input, Modal, Tabs } from "antd";
 import { useState } from "react";
 import { LogoIcon } from "@components/Lib/Icon";
 import "./index.css";
+import {
+  usePostForget,
+  usePostLoginByPhoneNumber,
+  usePostRegister,
+} from "@apis/apiHooks/Login";
 
 const { Item } = Form;
 
@@ -19,11 +24,21 @@ const LoginPage = () => {
   const [activeStatus, setActiveStatus] = useState(LoginStatus.LOGIN);
   const [activeTab, setActiveTab] = useState("wechat");
 
+  const postLoginByPhoneNumber = usePostLoginByPhoneNumber();
+  const postRegister = usePostRegister();
+  const postForget = usePostForget();
+
   const handleLogin = async () => {
     try {
       await loginForm[0].validateFields();
       const loginData = loginForm[0].getFieldsValue();
       console.log("Login date", loginData);
+      // const result = await postLoginByPhoneNumber({
+      //   data: {
+      //     password: loginData.loginpwd,
+      //     telephone: loginData.loginPhone,
+      //   },
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -34,6 +49,14 @@ const LoginPage = () => {
       await registerForm[0].validateFields();
       const registerData = registerForm[0].getFieldsValue();
       console.log("register data", registerData);
+      // const result = await postRegister({
+      //   data: {
+      //     password: registerData.registerPwd,
+      //     telephone: registerData.registerPhone,
+      //     authCode: registerData.registerVerify,
+      //     inviteCode: registerData.inviteCode,
+      //   },
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -44,6 +67,13 @@ const LoginPage = () => {
       await forgetForm[0].validateFields();
       const forgetData = forgetForm[0].getFieldsValue();
       console.log("forget data", forgetData);
+      // const result = await postForget({
+      //   data: {
+      //     password: forgetData.registerPwd,
+      //     telephone: forgetData.registerPhone,
+      //     authCode: forgetData.registerVerify,
+      //   },
+      // });
     } catch (error) {
       console.error(error);
     }

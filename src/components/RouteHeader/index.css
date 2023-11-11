@@ -2,7 +2,7 @@
   .ai-group-common-header-content {
     @apply flex justify-between items-center p-2;
     .title {
-      @apply text-base;
+      @apply text-base font-bold;
     }
   }
 }

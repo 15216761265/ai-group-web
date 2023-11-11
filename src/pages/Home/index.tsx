@@ -4,8 +4,9 @@ import { Input, Pagination } from "antd";
 import useGetData from "./hooks/useGetData";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "./index.css";
-import Card from "./component/card";
+
 import FilterModalList from "./component/filterModal";
+import Card from "@components/Card";
 
 const HomePage = () => {
   const {

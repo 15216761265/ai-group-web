@@ -1,11 +1,30 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { LogoIcon } from "@components/Lib/Icon";
-import { HomeRoleList } from "@modals/HomeRoleList";
+import { HomeRoleList, Type } from "@modals/HomeRoleList";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 type CardProps = {
   data: HomeRoleList;
 };
+
+const PromptTypeTag = (
+  <div className="bg-[#ecf5ff] border-[#daecff] text-[#3f9eff] p-1 rounded-md">
+    轻应用
+  </div>
+);
+
+const EmbeddingTypeTag = (
+  <div className="bg-[#fdf6ec] border-[#fbebd8] text-[#e6a23c] p-1 rounded-md">
+    知识库
+  </div>
+);
+
+const ImageTypeTag = (
+  <div className="bg-[#ffeff0] border-[#fee2e1] text-[#f56c6c] p-1 rounded-md">
+    知识库
+  </div>
+);
 
 const Card: React.FC<CardProps> = ({ data: listModalData }) => {
   const navigate = useNavigate();
@@ -37,9 +56,9 @@ const Card: React.FC<CardProps> = ({ data: listModalData }) => {
             </div>
             <div>{listModalData.nickName}</div>
           </div>
-          <div className="bg-[#ecf5ff] border-[#daecff] text-[#3f9eff] p-1 rounded-md">
-            轻应用
-          </div>
+          <>{listModalData.type === Type.Prompt && PromptTypeTag}</>
+          <>{listModalData.type === Type.Image && ImageTypeTag}</>
+          <>{listModalData.type === Type.Embedding && EmbeddingTypeTag}</>
         </div>
       </div>
     </div>

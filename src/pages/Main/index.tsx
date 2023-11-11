@@ -20,29 +20,17 @@ const Main = () => {
           <Routes>
             <Route path="" element={<HomePage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
-            <Route path="/home" element={<HomePage />}></Route>
+            <Route path={UserItems.HOME} element={<HomePage />}></Route>
             <Route
-              path={`/${UserItems.CHAT}/:code?`}
+              path={`${UserItems.CHAT}/:code?`}
               element={<ChatPage />}
             ></Route>
-            <Route path={"/" + UserItems.PAINT} element={<PaintPage />}></Route>
+            <Route path={UserItems.PAINT} element={<PaintPage />}></Route>
             <Route path="/console">
-              <Route
-                path={CreateItems.MYAPP}
-                element={<LoginPage></LoginPage>}
-              ></Route>
-              <Route
-                path={CreateItems.LIBRARY}
-                element={<LoginPage></LoginPage>}
-              ></Route>
-              <Route
-                path={CreateItems.APPINTEGRATION}
-                element={<LoginPage></LoginPage>}
-              ></Route>
-              <Route
-                path={CreateItems.MYACCOUNT}
-                element={<LoginPage></LoginPage>}
-              ></Route>
+              <Route path="myapp" element={<LoginPage></LoginPage>}></Route>
+              <Route path="library" element={<LoginPage></LoginPage>}></Route>
+              <Route path="appinte" element={<LoginPage></LoginPage>}></Route>
+              <Route path="myaccount" element={<LoginPage></LoginPage>}></Route>
             </Route>
           </Routes>
         </Content>

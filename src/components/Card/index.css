@@ -1,0 +1,12 @@
+.ai-group-home-role-list-card {
+  @apply m-2 rounded-lg overflow-hidden border border-[#eff0f0] bg-white cursor-pointer;
+  @screen _lg {
+    @apply w-[calc(25%-18px)] h-[285px];
+  }
+  .ai-group-home-role-list-card-img {
+    @apply w-full h-[calc(100%-100px)] overflow-hidden;
+  }
+  .ai-group-home-role-list-card-desc {
+    @apply px-2 overflow-hidden;
+  }
+}

@@ -16,25 +16,25 @@ import { useLocation, Link } from "react-router-dom";
 import "./index.css";
 
 export enum UserItems {
-  HOME = "home",
-  CHAT = "chat",
-  PAINT = "paint",
-  CREATE = "myapp",
+  HOME = "/home",
+  CHAT = "/chat",
+  PAINT = "/paint",
+  CREATE = "/myapp",
 }
 
 export enum CreateItems {
-  MYAPP = "myapp",
-  LIBRARY = "library",
-  APPINTEGRATION = "appinte",
-  MYACCOUNT = "myaccount",
-  GOBACK = "home",
+  MYAPP = "/console/myapp",
+  LIBRARY = "/console/library",
+  APPINTEGRATION = "/console/appinte",
+  MYACCOUNT = "/console/myaccount",
+  GOBACK = "/home",
 }
 
 const userItems = [
   {
     title: "首页",
     label: (
-      <Link to={"/" + UserItems.HOME} className="ai-router-title">
+      <Link to={UserItems.HOME} className="ai-router-title">
         首页
       </Link>
     ),
@@ -44,7 +44,7 @@ const userItems = [
   {
     title: "对话",
     label: (
-      <Link to={"/" + UserItems.CHAT} className="ai-router-title">
+      <Link to={UserItems.CHAT} className="ai-router-title">
         对话
       </Link>
     ),
@@ -54,7 +54,7 @@ const userItems = [
   {
     title: "绘画",
     label: (
-      <Link to={"/" + UserItems.PAINT} className="ai-router-title">
+      <Link to={UserItems.PAINT} className="ai-router-title">
         绘画
       </Link>
     ),
@@ -64,7 +64,7 @@ const userItems = [
   {
     title: "创建",
     label: (
-      <Link to={"/console/" + UserItems.CREATE} className="ai-router-title">
+      <Link to={"/console" + UserItems.CREATE} className="ai-router-title">
         创建
       </Link>
     ),
@@ -77,7 +77,7 @@ const createItems = [
   {
     title: "我的应用",
     label: (
-      <Link to={"/console/" + CreateItems.MYAPP} className="ai-router-title">
+      <Link to={CreateItems.MYAPP} className="ai-router-title">
         我的应用
       </Link>
     ),
@@ -87,7 +87,7 @@ const createItems = [
   {
     title: "知识库",
     label: (
-      <Link to={"/console/" + CreateItems.LIBRARY} className="ai-router-title">
+      <Link to={CreateItems.LIBRARY} className="ai-router-title">
         知识库
       </Link>
     ),
@@ -97,10 +97,7 @@ const createItems = [
   {
     title: "应用接入",
     label: (
-      <Link
-        to={"/console/" + CreateItems.APPINTEGRATION}
-        className="ai-router-title"
-      >
+      <Link to={CreateItems.APPINTEGRATION} className="ai-router-title">
         应用接入
       </Link>
     ),
@@ -110,10 +107,7 @@ const createItems = [
   {
     title: "我的账户",
     label: (
-      <Link
-        to={"/console/" + CreateItems.MYACCOUNT}
-        className="ai-router-title"
-      >
+      <Link to={CreateItems.MYACCOUNT} className="ai-router-title">
         我的账户
       </Link>
     ),
@@ -123,7 +117,7 @@ const createItems = [
   {
     title: "返回首页",
     label: (
-      <Link to={"/" + CreateItems.GOBACK} className="ai-router-title">
+      <Link to={CreateItems.GOBACK} className="ai-router-title">
         返回首页
       </Link>
     ),
@@ -137,7 +131,11 @@ const NavBar = () => {
   const [selectedKeys, setSelectKeys] = useState<string[]>(["home"]);
 
   useEffect(() => {
-    //TODO: to make the map to nav
+    if (pathname.indexOf("/chat") !== -1) {
+      setSelectKeys(["/chat"]);
+    } else {
+      setSelectKeys([pathname]);
+    }
   }, [pathname]);
 
   const getNavBarMenuItems = useCallback(() => {

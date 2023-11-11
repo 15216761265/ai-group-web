@@ -21,10 +21,34 @@ const RouteHeader = () => {
 
   const avatarMenu: MenuProps["items"] = [
     {
-      key: "i",
+      key: "1",
       label: (
         <Link to={"/home"} className="ai-router-title">
           返回首页
+        </Link>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Link to={"/console/myaccount"} className="ai-router-title">
+          我的账户
+        </Link>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <Link to={"/home"} className="ai-router-title">
+          每日签到
+        </Link>
+      ),
+    },
+    {
+      key: "4",
+      label: (
+        <Link to={"/home"} className="ai-router-title">
+          退出登录
         </Link>
       ),
     },

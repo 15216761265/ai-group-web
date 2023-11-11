@@ -1,6 +1,6 @@
 const ApiConstants = {
-  API_POST_REGISTER: "/api/register",
-  API_POST_LOGIN: "/api/login",
+  API_POST_REGISTER: "/api/member/sso/register",
+  API_POST_LOGIN: "/api/member/sso/login",
   API_POST_FORGET: "/api/forget",
 
   API_GET_ROLE_MODAL: "/api/chat/web/role/group/list",
