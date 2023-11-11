@@ -1,0 +1,15 @@
+.ai-group-console-myapp-card-list {
+  @apply flex flex-wrap;
+}
+.ai-group-console-myapp-card {
+  @apply w-[calc(50%-15px)] cursor-pointer mx-[5px] my-[10px];
+  .ant-card-body {
+    @apply p-3;
+  }
+  .image-box {
+    @apply w-10 h-10 overflow-hidden mr-2;
+  }
+  .ant-switch-inner {
+    @apply bg-[#dddfe6];
+  }
+}

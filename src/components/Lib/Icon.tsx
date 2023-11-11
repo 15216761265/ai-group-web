@@ -8,6 +8,9 @@ import Library from "@assets/library.svg?react";
 import Integration from "@assets/integration.svg?react";
 import MyAccount from "@assets/myAccount.svg?react";
 import BackHome from "@assets/backHome.svg?react";
+import Share from "@assets/share.svg?react";
+import Setting from "@assets/settings.svg?react";
+import Add from "@assets/add.svg?react";
 
 type Props = {
   className?: string;
@@ -51,4 +54,16 @@ export const MyAccountIcon: React.FC<Props> = ({ className = "" }) => {
 
 export const BackHomeIcon: React.FC<Props> = ({ className = "" }) => {
   return <BackHome className={className} />;
+};
+
+export const ShareIcon: React.FC<Props> = ({ className = "" }) => {
+  return <Share className={className} />;
+};
+
+export const SettingIcon: React.FC<Props> = ({ className = "" }) => {
+  return <Setting className={className} />;
+};
+
+export const AddIcon: React.FC<Props> = ({ className = "" }) => {
+  return <Add className={className} />;
 };

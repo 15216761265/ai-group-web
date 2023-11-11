@@ -3,12 +3,12 @@ import {
   useGetHomeRoleModalList,
 } from "@apis/apiHooks/Home";
 import { useEffect, useState } from "react";
-import HomeRoleListInterface, {
-  HomeRoleList,
-  HomeRoleModalList,
+import IHomeRoleListData, {
+  IHomeRoleList,
+  IHomeRoleModalList,
 } from "@modals/HomeRoleList";
 
-const MockData: HomeRoleListInterface = {
+const MockData: IHomeRoleListData = {
   total: 627,
   list: [
     {
@@ -1428,7 +1428,7 @@ const MockData: HomeRoleListInterface = {
   navigateLastPage: 1,
 };
 
-const Clssification: HomeRoleModalList[] = [
+const Clssification: IHomeRoleModalList[] = [
   {
     id: "1",
     name: "工作",
@@ -1482,9 +1482,9 @@ function useGetData() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(50);
   const [pageSize, setPageSize] = useState(20);
-  const [roleList, setRoleList] = useState<HomeRoleList[]>();
+  const [roleList, setRoleList] = useState<IHomeRoleList[]>();
   const [roleModalFilterList, setRoleModalFilterList] =
-    useState<HomeRoleModalList[]>();
+    useState<IHomeRoleModalList[]>();
   const [selectedGroupId, setSlectedGroupId] = useState<string | undefined>();
   const [selectActionType, setSelectActionType] = useState<
     string | undefined

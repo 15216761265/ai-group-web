@@ -7,6 +7,8 @@ import {
   usePostLoginByPhoneNumber,
   usePostRegister,
 } from "@apis/apiHooks/Login";
+import { JwtToken } from "@recoil/atoms/users";
+import { useRecoilState } from "recoil";
 
 const { Item } = Form;
 
@@ -23,6 +25,7 @@ const LoginPage = () => {
   const [open, setOpen] = useState(true);
   const [activeStatus, setActiveStatus] = useState(LoginStatus.LOGIN);
   const [activeTab, setActiveTab] = useState("wechat");
+  const [_, setJwtToken] = useRecoilState(JwtToken);
 
   const postLoginByPhoneNumber = usePostLoginByPhoneNumber();
   const postRegister = usePostRegister();
@@ -33,12 +36,18 @@ const LoginPage = () => {
       await loginForm[0].validateFields();
       const loginData = loginForm[0].getFieldsValue();
       console.log("Login date", loginData);
-      // const result = await postLoginByPhoneNumber({
-      //   data: {
-      //     password: loginData.loginpwd,
-      //     telephone: loginData.loginPhone,
-      //   },
-      // });
+      const result = await postLoginByPhoneNumber({
+        data: {
+          password: loginData.loginpwd,
+          telephone: loginData.loginPhone,
+        },
+      });
+      console.log("login result", result);
+      const token = result.data.data;
+      if (token) {
+        setJwtToken(`${token.tokenHead} ${token.token}`);
+      }
+      setOpen(false);
     } catch (error) {
       console.error(error);
     }
@@ -49,16 +58,19 @@ const LoginPage = () => {
       await registerForm[0].validateFields();
       const registerData = registerForm[0].getFieldsValue();
       console.log("register data", registerData);
-      // const result = await postRegister({
-      //   data: {
-      //     password: registerData.registerPwd,
-      //     telephone: registerData.registerPhone,
-      //     authCode: registerData.registerVerify,
-      //     inviteCode: registerData.inviteCode,
-      //   },
-      // });
+      const result = await postRegister({
+        data: {
+          password: registerData.registerPwd,
+          telephone: registerData.registerPhone,
+          authCode: registerData.registerVerify,
+          inviteCode: registerData.inviteCode,
+        },
+      });
+      console.log("register result", result);
     } catch (error) {
       console.error(error);
+    } finally {
+      setActiveStatus(LoginStatus.LOGIN);
     }
   };
 
@@ -67,15 +79,18 @@ const LoginPage = () => {
       await forgetForm[0].validateFields();
       const forgetData = forgetForm[0].getFieldsValue();
       console.log("forget data", forgetData);
-      // const result = await postForget({
-      //   data: {
-      //     password: forgetData.registerPwd,
-      //     telephone: forgetData.registerPhone,
-      //     authCode: forgetData.registerVerify,
-      //   },
-      // });
+      const result = await postForget({
+        data: {
+          password: forgetData.registerPwd,
+          telephone: forgetData.registerPhone,
+          authCode: forgetData.registerVerify,
+        },
+      });
+      console.log("forget result", result);
     } catch (error) {
       console.error(error);
+    } finally {
+      setActiveStatus(LoginStatus.LOGIN);
     }
   };
 

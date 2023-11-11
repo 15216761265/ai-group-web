@@ -1,7 +1,7 @@
 import Card from "@components/Card";
 import RouteHeader from "@components/RouteHeader";
-import { HomeRoleList } from "@modals/HomeRoleList";
-const PaintImage: HomeRoleList[] = [
+import { IHomeRoleList } from "@modals/HomeRoleList";
+const PaintImage: IHomeRoleList[] = [
   {
     id: 1192,
     code: "midjourney",

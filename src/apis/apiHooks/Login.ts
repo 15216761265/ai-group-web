@@ -3,7 +3,7 @@ import ApiConstants from "@apis/apiConstants";
 import useRequest from "@apis/useRequest";
 
 export const usePostLoginByPhoneNumber = () => {
-  return useRequest<TResponse>({
+  return useRequest<TResponse<{ token: string; tokenHead: string }>>({
     url: ApiConstants.API_POST_LOGIN,
     method: "POST",
   });

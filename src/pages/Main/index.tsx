@@ -6,6 +6,7 @@ import "./index.css";
 import HomePage from "@pages/Home";
 import ChatPage from "@pages/Chat";
 import PaintPage from "@pages/Paint";
+import ConsoleMyApp from "@pages/ConsoleMyApp";
 
 const { Content } = Layout;
 
@@ -27,7 +28,7 @@ const Main = () => {
             ></Route>
             <Route path={UserItems.PAINT} element={<PaintPage />}></Route>
             <Route path="/console">
-              <Route path="myapp" element={<LoginPage></LoginPage>}></Route>
+              <Route path="myapp" element={<ConsoleMyApp />}></Route>
               <Route path="library" element={<LoginPage></LoginPage>}></Route>
               <Route path="appinte" element={<LoginPage></LoginPage>}></Route>
               <Route path="myaccount" element={<LoginPage></LoginPage>}></Route>

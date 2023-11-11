@@ -1,6 +1,6 @@
-export default interface IHomeRoleListData {
+export default interface IMyAppListData {
   total: number;
-  list: IHomeRoleList[];
+  list: IMyAppList[];
   pageNum: number;
   pageSize: number;
   size: number;
@@ -19,80 +19,47 @@ export default interface IHomeRoleListData {
   navigateLastPage: number;
 }
 
-export interface IHomeRoleModalList {
-  id: string;
-  name: string;
-  description?: string;
-  aiRoles?: null;
-}
-
-export interface IHomeRoleList {
+export interface IMyAppList {
   id: number;
   code: string;
   name: string;
-  type: Type;
+  type: string;
   description: string;
   prompt: string;
   headImageUrl: string;
-  displayOnAppSquare: DisplayOnAppSquare;
+  displayOnAppSquare: string;
   introduction: string;
   creatorId: number;
-  nickName: string;
+  nickName: null;
   groupId: number;
   usageCount: number;
   thumbCount: number;
   collectCount: number;
   dataSets: null;
   temperature: string;
-  similarity: Similarity;
-  replyStrategy: ReplyStrategy;
-  fixedReplyText: null | string;
+  similarity: string;
+  replyStrategy: string;
+  fixedReplyText: null;
   supportModelList: SupportModelList[];
   knowledgeBaseCodes: null;
   similarityNumber: number;
-  knowledgeBaseSearchRow: number | null;
+  knowledgeBaseSearchRow: null;
   thumb: boolean;
   collect: boolean;
-  maxContextTurn: null;
-  enableMultiAgent: null;
-  displayThought: null;
-  displayPlugin: null;
-  maxThoughtTurns: null;
+  maxContextTurn: number;
+  enableMultiAgent: string;
+  displayThought: string;
+  displayPlugin: string;
+  maxThoughtTurns: number;
   appPluginsInfoVos: null;
   knowledgeSourcePreference: null;
 }
 
-export enum Type {
-  Embedding = "EMBEDDING",
-  Image = "IMAGE",
-  Prompt = "PROMPT",
-}
-export enum DisplayOnAppSquare {
-  Y = "Y",
-}
-
-export enum ReplyStrategy {
-  Reply = "REPLY",
-}
-
-export enum Similarity {
-  High = "HIGH",
-  Middle = "MIDDLE",
-}
-
 export interface SupportModelList {
-  code: Code;
+  code: string;
   name: null;
   tokensPerScore: number;
   maxTokens: number;
   defaultTokens: null;
   default: boolean;
-}
-
-export enum Code {
-  LinkAI35 = "LinkAI-3.5",
-  LinkAI4Turbo = "LinkAI-4-turbo",
-  Wenxin = "wenxin",
-  Wenxin4 = "wenxin-4",
-  Xunfei = "xunfei",
 }

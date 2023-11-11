@@ -8,6 +8,7 @@ const HeaderMap = {
   home: "Home",
   chat: "Chat",
   paint: "Paint",
+  myapp: "我的应用",
 };
 
 const RouteHeader = () => {

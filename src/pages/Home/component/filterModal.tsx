@@ -1,10 +1,10 @@
-import { HomeRoleModalList } from "@modals/HomeRoleList";
+import { IHomeRoleModalList } from "@modals/HomeRoleList";
 import classnames from "classnames";
 
 type FilterModalListProps = {
   selectedGroupId: string | undefined;
   setSlectedGroupId: (value: string) => void;
-  roleModalFilterList?: HomeRoleModalList[];
+  roleModalFilterList?: IHomeRoleModalList[];
   selectActionType: string | undefined;
   setSelectActionType: (value: string) => void;
 };
@@ -21,7 +21,7 @@ const SortData = [
 ];
 
 const ItemButton: React.FC<
-  Partial<FilterModalListProps> & { item: HomeRoleModalList }
+  Partial<FilterModalListProps> & { item: IHomeRoleModalList }
 > = ({ item, setSlectedGroupId, selectedGroupId }) => {
   return (
     <div
