@@ -9,6 +9,9 @@ import {
 } from "@apis/apiHooks/Login";
 import { JwtToken } from "@recoil/atoms/users";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { openErrorMessage, openSuccessMessage } from "@components/CommonTip";
+import { AxiosError } from "axios";
 
 const { Item } = Form;
 
@@ -19,6 +22,7 @@ enum LoginStatus {
 }
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const loginForm = Form.useForm();
   const registerForm = Form.useForm();
   const forgetForm = Form.useForm();
@@ -47,9 +51,12 @@ const LoginPage = () => {
       if (token) {
         setJwtToken(`${token.tokenHead} ${token.token}`);
       }
+
       setOpen(false);
-    } catch (error) {
+      navigate("/home");
+    } catch (error: AxiosError | unknown) {
       console.error(error);
+      openErrorMessage(error?.message);
     }
   };
 
@@ -114,7 +121,7 @@ const LoginPage = () => {
         </div>
       }
       closeIcon={false}
-      maskClosable={true}
+      maskClosable={false}
       onCancel={() => {
         setOpen(false);
       }}
@@ -136,7 +143,7 @@ const LoginPage = () => {
               label="密码"
               rules={[{ required: true, message: "请输入密码" }]}
             >
-              <Input placeholder="请输入密码" />
+              <Input.Password placeholder="请输入密码" />
             </Item>
             <div className="grid grid-cols-3 gap-1 pb-6">
               <Item
@@ -196,7 +203,7 @@ const LoginPage = () => {
                       label="密码"
                       rules={[{ required: true, message: "请输入密码" }]}
                     >
-                      <Input placeholder="请输入密码" />
+                      <Input.Password placeholder="请输入密码" />
                     </Item>
                   </Form>
                   <Button
@@ -230,7 +237,7 @@ const LoginPage = () => {
               label="新密码"
               rules={[{ required: true, message: "请输入新密码" }]}
             >
-              <Input placeholder="请输入新密码" />
+              <Input.Password placeholder="请输入新密码" />
             </Item>
             <div className="grid grid-cols-3 gap-1 pb-6">
               <Item

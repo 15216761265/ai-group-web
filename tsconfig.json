@@ -29,7 +29,8 @@
       "@assets/*":["assets/*"],
       "@typings/*":["typings/*"],
       "@apis/*":["apis/*"],
-      "@modals/*":["modals/*"]
+      "@modals/*":["modals/*"],
+      "@utils/*":["utils/*"]
     },
   },
   "include": ["src"],

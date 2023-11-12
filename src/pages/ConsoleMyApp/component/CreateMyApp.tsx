@@ -4,6 +4,7 @@ import "./CreateMyApp.css";
 import { Button, Form, Input, Select, Switch } from "antd";
 import { IHomeRoleModalList } from "@modals/HomeRoleList";
 import { MyAppContext } from "../context";
+import { useForm } from "antd/es/form/Form";
 
 const Clssification: IHomeRoleModalList[] = [
   {
@@ -109,6 +110,9 @@ const MyAppCreateCard: React.FC<MyAppCreateCardProps> = ({
 const CreateMyApp = () => {
   const { setIsEdit, setIsCreate } = useContext(MyAppContext);
   const [type, setType] = useState("PROMPT");
+  const [form] = useForm();
+
+  const isPublic = Form.useWatch(FormItemMappings.PUBLIC);
 
   return (
     <div className="ai-group-myapp-create">
@@ -124,8 +128,11 @@ const CreateMyApp = () => {
           ))}
         </div>
         <Form
+          form={form}
           initialValues={{ [FormItemMappings.PUBLIC]: true }}
-          onFinish={() => {}}
+          onFinish={(value) => {
+            console.log("create my app", value);
+          }}
         >
           <Item name={FormItemMappings.NAME} label="应用名称">
             <Input placeholder="给你的应用取一个有趣的名字吧"></Input>
@@ -149,7 +156,11 @@ const CreateMyApp = () => {
             </Select>
           </Item>
           <Item name={FormItemMappings.PUBLIC} label="是否公开">
-            否<Switch></Switch>是<div>(选是则会显示在应用广场)</div>
+            否
+            <Switch
+              className={classNames("mx-2", !isPublic && "bg-[#dddfe6]")}
+            ></Switch>
+            是<div>(选是则会显示在应用广场)</div>
           </Item>
           <Item name={FormItemMappings.PROMPT} label="应用设定">
             <Input.TextArea

@@ -14,6 +14,7 @@ export default defineConfig({
       "@typings": "/src/typings",
       "@apis": "/src/apis",
       "@modals": "/src/modals",
+      "@utils": "/src/utils",
     },
   },
 });

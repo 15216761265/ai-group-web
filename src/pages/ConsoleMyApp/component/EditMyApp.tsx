@@ -8,6 +8,7 @@ import {
 import { Button, Form, Input, Switch } from "antd";
 import { MyAppContext } from "../context";
 import "./EditMyApp.css";
+import { useGetHomeRoleModalList } from "@apis/apiHooks/Home";
 
 const { Item } = Form;
 
@@ -127,7 +128,7 @@ const EditMyAppCard: React.FC<{ title: string; children: ReactElement }> = ({
 
 const EditMyApp = () => {
   const { setIsEdit, setIsCreate } = useContext(MyAppContext);
-  // const getModalList = useGetHomeRoleModalList();
+  const getModalList = useGetHomeRoleModalList();
   return (
     <div>
       <div className="flex justify-between">

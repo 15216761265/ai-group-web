@@ -1495,36 +1495,38 @@ function useGetData() {
   useEffect(() => {
     (async () => {
       try {
-        // const result = await getRoleModalFilterList({  });
-        const result = Clssification;
-        setRoleModalFilterList(result);
+        const result = await getRoleModalFilterList({});
+        const data = result.data.data;
+        setRoleModalFilterList(data);
       } catch (error) {
         //TODO: common tip
         console.error(error);
       }
     })();
-  }, []);
+  }, [getRoleModalFilterList]);
 
   useEffect(() => {
     (async () => {
       try {
-        // const result = await getRoleList({
-        //   params: {
-        //     pageNo: currentPage,
-        // pageSize: pageSize,
-        // groupId:selectedGroupId ,
-        // actionType:selectActionType
-        //   },
-        // });
-        const result = MockData;
-        setRoleList(result.list);
-        setTotalItems(result.total);
+        const result = await getRoleList({
+          data: {
+            searchValue: null,
+            actionType: selectActionType,
+            pageNo: currentPage,
+            pageSize: pageSize,
+            groupId: selectedGroupId,
+          },
+        });
+        console.log(111111, "home getRoleList result", result);
+        const data = result.data.data;
+        setRoleList(data.list);
+        setTotalItems(data.total);
       } catch (error) {
         //TODO: common tip
         console.error(error);
       }
     })();
-  }, []);
+  }, [currentPage, getRoleList, pageSize, selectActionType, selectedGroupId]);
 
   return {
     currentPage,

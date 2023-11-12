@@ -48,7 +48,9 @@ const CardCom: React.FC<{
             <div className="image-box">
               <img src={data.headImageUrl} alt="" />
             </div>
-            <div className="text-lg font-medium">{data.name}</div>
+            <div className="text-lg font-medium break-keep text-ellipsis overflow-hidden">
+              {data.name}
+            </div>
           </div>
           <div className="grid grid-cols-3 gap-1 items-center">
             <div
