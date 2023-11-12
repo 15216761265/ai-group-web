@@ -1,0 +1,20 @@
+.ai-group-myapp-create {
+  @apply overflow-auto;
+  .create-content {
+    @apply w-[40%] max-w-[1280px] m-auto;
+    .create-card {
+      @apply border border-[#e5e7eb] bg-[#f9fafb] rounded-md p-3;
+      .title {
+        @apply text-lg font-medium;
+      }
+    }
+    .create-card-active {
+      @apply bg-[#e7f2fe] border-[#006ad9];
+    }
+    .form-button {
+      .ant-form-item-control-input-content {
+        @apply flex justify-between;
+      }
+    }
+  }
+}

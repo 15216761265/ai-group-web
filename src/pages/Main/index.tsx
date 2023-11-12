@@ -1,12 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
 import LoginPage from "@pages/Login";
-import NavBar, { UserItems, CreateItems } from "@pages/NavBar";
+import NavBar, { UserItems } from "@pages/NavBar";
 import "./index.css";
 import HomePage from "@pages/Home";
 import ChatPage from "@pages/Chat";
 import PaintPage from "@pages/Paint";
 import ConsoleMyApp from "@pages/ConsoleMyApp";
+import ConsoleLibrary from "@pages/ConsoleLibrary";
+import Integration from "@pages/ConsoleInte";
+import MyAccount from "@pages/ConsoleMyAccount";
 
 const { Content } = Layout;
 
@@ -29,9 +32,15 @@ const Main = () => {
             <Route path={UserItems.PAINT} element={<PaintPage />}></Route>
             <Route path="/console">
               <Route path="myapp" element={<ConsoleMyApp />}></Route>
-              <Route path="library" element={<LoginPage></LoginPage>}></Route>
-              <Route path="appinte" element={<LoginPage></LoginPage>}></Route>
-              <Route path="myaccount" element={<LoginPage></LoginPage>}></Route>
+              <Route
+                path="library"
+                element={<ConsoleLibrary></ConsoleLibrary>}
+              ></Route>
+              <Route
+                path="appinte"
+                element={<Integration></Integration>}
+              ></Route>
+              <Route path="myaccount" element={<MyAccount></MyAccount>}></Route>
             </Route>
           </Routes>
         </Content>

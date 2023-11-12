@@ -9,6 +9,9 @@ const HeaderMap = {
   chat: "Chat",
   paint: "Paint",
   myapp: "我的应用",
+  library: "知识库",
+  appinte: "应用接入",
+  myaccount: "我的账户",
 };
 
 const RouteHeader = () => {

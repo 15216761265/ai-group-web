@@ -1,5 +1,5 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { LogoIcon } from "@components/Lib/Icon";
+import { GroupIcon, LogoIcon } from "@components/Lib/Icon";
 import { IHomeRoleList, Type } from "@modals/HomeRoleList";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
@@ -34,12 +34,12 @@ const Card: React.FC<CardProps> = ({ data: listModalData }) => {
   const navigate = useNavigate();
 
   const handleClickTheRole = () => {
-    navigate(`/chat/${listModalData.code}`);
     const modalIdList =
       userSelectedModals.length && userSelectedModals.map((item) => item.code);
-    if (modalIdList && modalIdList.indexOf(listModalData.code) === 0) {
+    if (!modalIdList || modalIdList.indexOf(listModalData.code) === -1) {
       setUserSlectedModals([...userSelectedModals, listModalData]);
     }
+    navigate(`/chat/${listModalData.code}`);
   };
 
   return (
@@ -61,7 +61,7 @@ const Card: React.FC<CardProps> = ({ data: listModalData }) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center w-1/2 overflow-hidden whitespace-nowrap text-ellipsis ">
             <div>
-              <LogoIcon className="mr-1"></LogoIcon>
+              <GroupIcon className="mr-1"></GroupIcon>
             </div>
             <div>{listModalData.nickName}</div>
           </div>

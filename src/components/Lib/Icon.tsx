@@ -11,6 +11,7 @@ import BackHome from "@assets/backHome.svg?react";
 import Share from "@assets/share.svg?react";
 import Setting from "@assets/settings.svg?react";
 import Add from "@assets/add.svg?react";
+import Group from "@assets/group.svg?react";
 
 type Props = {
   className?: string;
@@ -66,4 +67,8 @@ export const SettingIcon: React.FC<Props> = ({ className = "" }) => {
 
 export const AddIcon: React.FC<Props> = ({ className = "" }) => {
   return <Add className={className} />;
+};
+
+export const GroupIcon: React.FC<Props> = ({ className = "" }) => {
+  return <Group className={className} />;
 };

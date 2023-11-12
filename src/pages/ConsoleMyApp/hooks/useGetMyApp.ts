@@ -111,6 +111,9 @@ const MockMyAppData = {
 function useGetMyAppData() {
   const [myAppList, setMyAppList] = useState<IMyAppList[]>();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCreate, setIsCreate] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState("");
   const getMyAppData = useGetMyAppDataList();
 
   useEffect(() => {
@@ -126,7 +129,7 @@ function useGetMyAppData() {
     })();
   }, []);
 
-  return { myAppList };
+  return { myAppList, isCreate, setIsCreate, isEdit, setIsEdit, setEditId };
 }
 
 export default useGetMyAppData;
