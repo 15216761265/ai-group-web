@@ -1,18 +1,18 @@
+import { useCallback, useMemo, useState } from "react";
 import RouteHeader from "@components/RouteHeader";
 import { Avatar, Layout, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
-import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import "@chatui/core/es/styles/index.less";
-import Chat, { Bubble, useMessages } from "@chatui/core";
-import "@chatui/core/dist/index.css";
 import "./index.css";
-import { LogoIcon } from "@components/Lib/Icon";
-import showdown from "showdown";
+import ChatCom from "./Com/ChatCom";
+import { IHomeRoleList, Type } from "@modals/HomeRoleList";
+import { useRecoilValue } from "recoil";
+import { UserSelectedModals } from "@recoil/atoms/modals";
 
 //TODO: save the data status
-const MockChatData = [
+const MockChatData: IHomeRoleList[] = [
   {
     id: 1,
     code: "default",
@@ -156,34 +156,28 @@ const MockChatData = [
 ];
 
 const ChatPage = () => {
+  //TODO: add router guard
   const { code } = useParams();
+  const userSelectedModals = useRecoilValue(UserSelectedModals);
   const [activeKeys, setActiveKeys] = useState([code || MockChatData[0].code]);
 
-  const getChatInfo = useCallback(() => {
+  const getChatInfo = useMemo(() => {
     return MockChatData.find((item) => item.code === activeKeys[0]);
   }, [activeKeys]);
 
-  const initialMessage = [
-    {
-      type: "text",
-      content: { text: getChatInfo()?.introduction },
-      user: {
-        avatar: getChatInfo()?.headImageUrl,
+  const initialChatMessage = useMemo(() => {
+    return [
+      {
+        type: "text",
+        content: { text: getChatInfo?.introduction },
+        user: {
+          avatar: getChatInfo?.headImageUrl,
+        },
       },
-    },
-    {
-      type: "image",
-      user: {
-        avatar: getChatInfo()?.headImageUrl,
-      },
-      content: {
-        picUrl: getChatInfo()?.headImageUrl,
-      },
-    },
-  ];
-  const { messages, appendMsg, setTyping } = useMessages(initialMessage);
+    ];
+  }, [getChatInfo]);
 
-  const getChatItems = useCallback(() => {
+  const getChatItemsList = useCallback(() => {
     return MockChatData.map((item) => {
       return {
         key: item.code,
@@ -197,45 +191,11 @@ const ChatPage = () => {
     });
   }, []);
 
-  const handleSend = (type, val) => {
-    if (type === "text" && val.trim()) {
-      appendMsg({
-        type: "text",
-        content: { text: val },
-        position: "right",
-        user: { avatar: <LogoIcon></LogoIcon> }, //TODO :to do recoil,login user info
-      });
-
-      setTyping(true);
-
-      //TODO: express the prompt to api
-      setTimeout(() => {
-        appendMsg({
-          type: "text",
-          content: { text: "Bala bala" },
-          user: { avatar: getChatInfo()?.headImageUrl },
-        });
-      }, 1000);
-    }
-  };
-
-  const renderMessageContent = (msg) => {
-    const { content, type } = msg;
-    const convert = new showdown.Converter();
-    if (type === "text") {
-      const children = convert.makeHtml(content.text);
-      console.log("chat content.text", content.text);
-      console.log("chat content", children);
-      return <Bubble type="text" content={content.text}></Bubble>;
-    } else if (type === "image") {
-      return (
-        <Bubble type="image">
-          <img src={content.picUrl}></img>
-        </Bubble>
-      );
-    }
-    return <Bubble content={content} />;
-  };
+  const getReChatCom = useCallback(() => {
+    return (
+      <ChatCom initialMessage={initialChatMessage} chatInfo={getChatInfo} />
+    );
+  }, [getChatInfo, initialChatMessage]);
 
   return (
     <div>
@@ -244,19 +204,13 @@ const ChatPage = () => {
         <Layout>
           <Sider className="" theme="light">
             <Menu
-              items={getChatItems()}
+              items={getChatItemsList()}
               selectedKeys={activeKeys}
               onSelect={({ selectedKeys }) => setActiveKeys(selectedKeys)}
             ></Menu>
           </Sider>
-          <Content>
-            <Chat
-              navbar={{ title: getChatInfo()?.name || "智能助理" }}
-              messages={messages}
-              renderMessageContent={renderMessageContent}
-              onSend={handleSend}
-            />
-          </Content>
+          {/* TODO: to update the user chat */}
+          <Content>{getReChatCom()}</Content>
         </Layout>
       </div>
     </div>

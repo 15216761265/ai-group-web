@@ -3,6 +3,8 @@ import { LogoIcon } from "@components/Lib/Icon";
 import { IHomeRoleList, Type } from "@modals/HomeRoleList";
 import { useNavigate } from "react-router-dom";
 import "./index.css";
+import { useRecoilState } from "recoil";
+import { UserSelectedModals } from "@recoil/atoms/modals";
 
 type CardProps = {
   data: IHomeRoleList;
@@ -27,10 +29,17 @@ export const ImageTypeTag = (
 );
 
 const Card: React.FC<CardProps> = ({ data: listModalData }) => {
+  const [userSelectedModals, setUserSlectedModals] =
+    useRecoilState(UserSelectedModals);
   const navigate = useNavigate();
 
   const handleClickTheRole = () => {
     navigate(`/chat/${listModalData.code}`);
+    const modalIdList =
+      userSelectedModals.length && userSelectedModals.map((item) => item.code);
+    if (modalIdList && modalIdList.indexOf(listModalData.code) === 0) {
+      setUserSlectedModals([...userSelectedModals, listModalData]);
+    }
   };
 
   return (

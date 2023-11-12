@@ -9,6 +9,7 @@ import {
   ImageTypeTag,
 } from "@components/Card/index";
 import "./MyAppCard.css";
+import classNames from "classnames";
 
 const TagMap = {
   EMBEDDING: EmbeddingTypeTag,
@@ -39,7 +40,11 @@ const CardCom: React.FC<{ data: IMyAppList }> = ({ data }) => {
           <div className="text-lg font-medium">{data.name}</div>
         </div>
         <div className="grid grid-cols-3 gap-1 items-center">
-          <Switch checked={checked} onChange={handleDisplayOnAppSquare} />
+          <Switch
+            checked={checked}
+            onChange={handleDisplayOnAppSquare}
+            className={classNames(!checked && "bg-[#dddfe6]")}
+          />
           <div onClick={handleShareYourApp} className="flex justify-center">
             <ShareIcon />
           </div>

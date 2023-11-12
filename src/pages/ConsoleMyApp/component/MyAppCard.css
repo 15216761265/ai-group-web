@@ -9,7 +9,4 @@
   .image-box {
     @apply w-10 h-10 overflow-hidden mr-2;
   }
-  .ant-switch-inner {
-    @apply bg-[#dddfe6];
-  }
 }
