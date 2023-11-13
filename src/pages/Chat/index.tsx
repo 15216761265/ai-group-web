@@ -46,7 +46,7 @@ const ChatPage = () => {
         ),
       };
     });
-  }, []);
+  }, [userSelectedModals]);
 
   const getReChatCom = useCallback(() => {
     return (

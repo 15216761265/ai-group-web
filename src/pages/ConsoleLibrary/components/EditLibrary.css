@@ -1,0 +1,15 @@
+.ai-group-library-edit {
+  @apply h-[calc(100vh-200px)];
+  .ant-layout {
+    @apply h-full;
+  }
+  .create-card {
+    @apply w-1/2 border border-[#e5e7eb] bg-[#f9fafb] rounded-md p-3;
+    .title {
+      @apply text-lg font-medium;
+    }
+  }
+  .create-card-active {
+    @apply bg-[#e7f2fe] border-[#006ad9];
+  }
+}

@@ -1495,8 +1495,9 @@ function useGetData() {
   useEffect(() => {
     (async () => {
       try {
-        const result = await getRoleModalFilterList({});
-        const data = result.data.data;
+        // const result = await getRoleModalFilterList({});
+        // const data = result.data.data;
+        const data = Clssification;
         setRoleModalFilterList(data);
       } catch (error) {
         //TODO: common tip
@@ -1508,17 +1509,18 @@ function useGetData() {
   useEffect(() => {
     (async () => {
       try {
-        const result = await getRoleList({
-          data: {
-            searchValue: null,
-            actionType: selectActionType,
-            pageNo: currentPage,
-            pageSize: pageSize,
-            groupId: selectedGroupId,
-          },
-        });
-        console.log(111111, "home getRoleList result", result);
-        const data = result.data.data;
+        // const result = await getRoleList({
+        //   data: {
+        //     searchValue: null,
+        //     actionType: selectActionType,
+        //     pageNo: currentPage,
+        //     pageSize: pageSize,
+        //     groupId: selectedGroupId,
+        //   },
+        // });
+        // console.log(111111, "home getRoleList result", result);
+        // const data = result.data.data;
+        const data = MockData;
         setRoleList(data.list);
         setTotalItems(data.total);
       } catch (error) {
