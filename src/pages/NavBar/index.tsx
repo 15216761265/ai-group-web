@@ -13,7 +13,9 @@ import {
 } from "@components/Lib/Icon";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import logo from "@assets/logo-w.png";
 import "./index.css";
+// const logo = "https://shuchun.oss-cn-shanghai.aliyuncs.com/aigc/assets/images/logo-w.jpg";
 
 export enum UserItems {
   HOME = "/home",
@@ -144,9 +146,9 @@ const NavBar = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-center">
-        <LogoIcon />
-        <div className="ml-3">AI Group</div>
+      <div className="flex items-center justify-center w-[80%]">
+        <img src={logo} />
+        {/* <div className="ml-3">AI Group</div> */}
       </div>
       <Divider className="my-4" />
       <Menu

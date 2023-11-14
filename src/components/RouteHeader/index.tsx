@@ -72,7 +72,7 @@ const RouteHeader = () => {
         </div>
       </div>
 
-      <Divider className="mt-[8px] mb-4"></Divider>
+      <Divider className="mt-0 mb-4"></Divider>
     </div>
   );
 };
