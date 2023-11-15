@@ -1,0 +1,6 @@
+.ai-group-inte-card-com {
+  @apply w-[40%] mx-[5px];
+  .tip {
+    @apply mt-2  text-[#999797];
+  }
+}

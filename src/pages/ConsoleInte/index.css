@@ -1,0 +1,9 @@
+.ai-group-inte {
+  @apply h-[calc(100vh-140px)] overflow-auto px-3;
+  .inte-list-card {
+    @apply w-full rounded-md bg-white p-3 mb-3;
+    .title {
+      @apply text-lg text-[#1677ff] my-3 font-bold;
+    }
+  }
+}

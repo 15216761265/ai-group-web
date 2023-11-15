@@ -1,0 +1,6 @@
+.ai-group-my-account {
+  @apply h-[100vh-200px] overflow-auto p-3;
+  .my-account-card {
+    @apply w-full bg-white rounded-md p-3 my-3;
+  }
+}
