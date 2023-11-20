@@ -7,7 +7,7 @@ import {
   usePostLoginByPhoneNumber,
   usePostRegister,
 } from "@apis/apiHooks/Login";
-import { IsLogin } from "@recoil/atoms/users";
+import { IsLogin, LoginUsesInfo } from "@recoil/atoms/users";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { openErrorMessage, openSuccessMessage } from "@components/CommonTip";
@@ -31,6 +31,7 @@ const LoginPage = () => {
   const [activeStatus, setActiveStatus] = useState(LoginStatus.LOGIN);
   const [activeTab, setActiveTab] = useState("phone");
   const [_, setIsLogin] = useRecoilState(IsLogin);
+  const [userInfo, setUserInfo] = useRecoilState(LoginUsesInfo);
 
   const postLoginByPhoneNumber = usePostLoginByPhoneNumber();
   const postRegister = usePostRegister();
@@ -53,6 +54,7 @@ const LoginPage = () => {
         setIsLogin(true);
         setCookies("userToken", `${token.tokenHead} ${token.token}`);
       }
+      setUserInfo({ name: loginData.loginPhone });
 
       setOpen(false);
       navigate("/home");
@@ -205,7 +207,10 @@ const LoginPage = () => {
                       label="密码"
                       rules={[{ required: true, message: "请输入密码" }]}
                     >
-                      <Input.Password placeholder="请输入密码" />
+                      <Input.Password
+                        placeholder="请输入密码"
+                        onPressEnter={handleLogin}
+                      />
                     </Item>
                   </Form>
                   <Button

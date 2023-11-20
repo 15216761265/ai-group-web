@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-const LoginUsesInfo = atom({
+const LoginUsesInfo = atom<{ name: string } | null>({
   key: "LoginUsesInfo",
   default: null,
 });

@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Divider, Avatar, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import "./index.css";
+import { useRecoilValue } from "recoil";
+import { LoginUsesInfo } from "@recoil/atoms/users";
 
 const HeaderMap = {
   home: "Home",
@@ -17,6 +19,7 @@ const HeaderMap = {
 const RouteHeader = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const userInfo = useRecoilValue(LoginUsesInfo);
 
   const getTitle = useCallback(() => {
     const route = pathname.split("/");
@@ -66,7 +69,7 @@ const RouteHeader = () => {
           <Dropdown menu={{ items: avatarMenu }}>
             <div className="flex items-center">
               <Avatar style={{ backgroundColor: "#1677ff" }}>Icon</Avatar>
-              <div className="ml-2">青山相待</div>
+              <div className="ml-2">{userInfo?.name || "请登录"}</div>
             </div>
           </Dropdown>
         </div>
