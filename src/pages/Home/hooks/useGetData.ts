@@ -11,9 +11,11 @@ import { openErrorMessage } from "@components/CommonTip";
 import { AxiosError } from "axios";
 import { useRecoilState } from "recoil";
 import { IsLogin } from "@recoil/atoms/users";
+import { getCookies } from "@utils/index";
 
 function useGetData() {
   const [isLogin] = useRecoilState(IsLogin);
+  const token = getCookies("userToken");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(50);
   const [pageSize, setPageSize] = useState(20);
@@ -31,7 +33,7 @@ function useGetData() {
 
   useEffect(() => {
     (async () => {
-      if (!isLogin) return;
+      if (!token) return;
       try {
         const result = await getRoleModalFilterList({});
         const data = result.data.data;
@@ -43,11 +45,11 @@ function useGetData() {
         }
       }
     })();
-  }, [getRoleModalFilterList, isLogin]);
+  }, [getRoleModalFilterList, token]);
 
   useEffect(() => {
     (async () => {
-      if (!isLogin) return;
+      if (!token) return;
       try {
         setIsLoadingData(true);
         const result = await getRoleList({
@@ -76,6 +78,7 @@ function useGetData() {
     pageSize,
     selectActionType,
     selectedGroupId,
+    token,
   ]);
 
   return {
