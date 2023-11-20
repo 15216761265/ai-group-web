@@ -124,7 +124,7 @@ const CreateMyApp = () => {
             <Input.TextArea placeholder="应用的第一句话。例如:有什么可以帮您的?"></Input.TextArea>
           </Item>
           <Item name={CreateFormItemMappings.IMAGE} label="应用头像">
-            <Upload
+            {/* <Upload
               name="avatar"
               listType="picture-card"
               className="avatar-uploader"
@@ -142,7 +142,8 @@ const CreateMyApp = () => {
               ) : (
                 uploadButton
               )}
-            </Upload>
+            </Upload> */}
+            <Input placeholder="请填入链接"></Input>
           </Item>
           <Item name={CreateFormItemMappings.GROUPID} label="选择分类">
             <Select placeholder="请选择应用分类">

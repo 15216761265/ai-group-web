@@ -126,7 +126,7 @@ function useGetMyAppData() {
           displayOnAppSquare,
           groupId,
           //TODO: should upload img
-          headImageUrl: "http://dummyimage.com/400x400",
+          headImageUrl,
           introduction,
           name,
           type: "do Ut consequat",
