@@ -6,11 +6,12 @@ import axios, {
 } from "axios";
 import { useCallback, useEffect, useRef } from "react";
 import { merge } from "lodash-es";
-import { DevURL } from "./apiConstants";
+import { DevURL, ProdURL } from "./apiConstants";
 import { useRecoilState } from "recoil";
 import { IsLogin } from "@recoil/atoms/users";
 
 const useRequest = <R>(initialParams: AxiosRequestConfig = {}) => {
+  const isDev = window.location.origin.indexOf("localhost") !== -1;
   // const [isLogin] = useRecoilState(IsLogin);
   const token = getCookies("userToken");
   const source = useRef<CancelTokenSource>();
@@ -32,14 +33,14 @@ const useRequest = <R>(initialParams: AxiosRequestConfig = {}) => {
       );
       // console.log("%c useRequest", "backgroud-color:pink", params, token);
       return axios({
-        baseURL: DevURL,
+        baseURL: isDev ? DevURL : ProdURL,
         ...params,
         cancelToken: source.current.token,
       }).then((res: AxiosResponse<R>) => {
         return res;
       });
     },
-    [token]
+    [isDev, token]
   );
 
   useEffect(() => () => source.current?.cancel(), []);

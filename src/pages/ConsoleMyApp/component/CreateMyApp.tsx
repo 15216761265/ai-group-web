@@ -146,11 +146,12 @@ const CreateMyApp = () => {
           </Item>
           <Item name={CreateFormItemMappings.GROUPID} label="选择分类">
             <Select placeholder="请选择应用分类">
-              {roleModalFilterList.map((item, index) => (
-                <Option key={index} value={item.id}>
-                  {item.name}
-                </Option>
-              ))}
+              {roleModalFilterList.length !== 0 &&
+                roleModalFilterList.map((item, index) => (
+                  <Option key={index} value={item.id}>
+                    {item.name}
+                  </Option>
+                ))}
             </Select>
           </Item>
           <Item name={CreateFormItemMappings.PUBLIC} label="是否公开">

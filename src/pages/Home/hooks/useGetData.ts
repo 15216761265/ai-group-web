@@ -9,14 +9,18 @@ import IHomeRoleListData, {
 } from "@modals/HomeRoleList";
 import { openErrorMessage } from "@components/CommonTip";
 import { AxiosError } from "axios";
+import { useRecoilState } from "recoil";
+import { IsLogin } from "@recoil/atoms/users";
 
 function useGetData() {
+  const [isLogin] = useRecoilState(IsLogin);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(50);
   const [pageSize, setPageSize] = useState(20);
   const [roleList, setRoleList] = useState<IHomeRoleList[]>();
-  const [roleModalFilterList, setRoleModalFilterList] =
-    useState<IHomeRoleModalList[]>();
+  const [roleModalFilterList, setRoleModalFilterList] = useState<
+    IHomeRoleModalList[]
+  >([]);
   const [selectedGroupId, setSlectedGroupId] = useState<string | undefined>();
   const [selectActionType, setSelectActionType] = useState<
     string | undefined
@@ -27,6 +31,7 @@ function useGetData() {
 
   useEffect(() => {
     (async () => {
+      if (!isLogin) return;
       try {
         const result = await getRoleModalFilterList({});
         const data = result.data.data;
@@ -38,10 +43,11 @@ function useGetData() {
         }
       }
     })();
-  }, [getRoleModalFilterList]);
+  }, [getRoleModalFilterList, isLogin]);
 
   useEffect(() => {
     (async () => {
+      if (!isLogin) return;
       try {
         setIsLoadingData(true);
         const result = await getRoleList({
@@ -63,7 +69,14 @@ function useGetData() {
         setIsLoadingData(false);
       }
     })();
-  }, [currentPage, getRoleList, pageSize, selectActionType, selectedGroupId]);
+  }, [
+    currentPage,
+    getRoleList,
+    isLogin,
+    pageSize,
+    selectActionType,
+    selectedGroupId,
+  ]);
 
   return {
     currentPage,

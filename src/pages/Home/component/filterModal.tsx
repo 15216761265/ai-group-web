@@ -60,6 +60,7 @@ const FilterModalList: React.FC<FilterModalListProps> = ({
         </div>
         <>
           {roleModalFilterList &&
+            roleModalFilterList.length !== 0 &&
             roleModalFilterList.map((item, index) => {
               return (
                 <ItemButton

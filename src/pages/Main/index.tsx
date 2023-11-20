@@ -34,7 +34,7 @@ const Main = () => {
         <Content className="overflow-auto">
           <Routes>
             <Route path="/login" element={<LoginPage />}></Route>
-            <Route path="" element={<HomePage />}></Route>
+            <Route path="/" element={<HomePage />}></Route>
             <Route path={UserItems.HOME} element={<HomePage />}></Route>
             <Route
               path={`${UserItems.CHAT}/:code?`}
