@@ -41,7 +41,6 @@ const LoginPage = () => {
     try {
       await loginForm.validateFields();
       const loginData = loginForm.getFieldsValue();
-      console.log("Login date", loginData);
       const result = await postLoginByPhoneNumber({
         data: {
           password: loginData.loginpwd,
@@ -68,7 +67,6 @@ const LoginPage = () => {
     try {
       await registerForm.validateFields();
       const registerData = registerForm.getFieldsValue();
-      console.log("register data", registerData);
       const result = await postRegister({
         data: {
           password: registerData.registerPwd,
@@ -89,7 +87,6 @@ const LoginPage = () => {
     try {
       await forgetForm.validateFields();
       const forgetData = forgetForm.getFieldsValue();
-      console.log("forget data", forgetData);
       const result = await postForget({
         data: {
           password: forgetData.registerPwd,
