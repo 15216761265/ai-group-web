@@ -5,7 +5,7 @@ import {
   EmbeddingTypeTag,
   ImageTypeTag,
 } from "@components/Card/index";
-import { Button, Form, Input, Switch } from "antd";
+import { Button, Form, Input, Spin, Switch } from "antd";
 import { MyAppContext } from "../context";
 import "./EditMyApp.css";
 import { useGetHomeRoleModalList } from "@apis/apiHooks/Home";
@@ -127,12 +127,18 @@ const EditMyAppCard: React.FC<{ title: string; children: ReactElement }> = ({
 };
 
 const EditMyApp = () => {
-  const { setIsEdit, setIsCreate } = useContext(MyAppContext);
+  const {
+    setIsEdit,
+    setIsCreate,
+    editForm,
+    editAppInfo,
+    isEditAppInfoLoading,
+  } = useContext(MyAppContext);
   const getModalList = useGetHomeRoleModalList();
   return (
-    <div>
+    <Spin spinning={isEditAppInfoLoading}>
       <div className="flex justify-between">
-        <div>{TagMap[EditDataMockInfo.type]}</div>
+        <div>{TagMap[editAppInfo.type]}</div>
         <div className="flex">
           <Button
             className="mr-2"
@@ -149,7 +155,11 @@ const EditMyApp = () => {
           </Button>
         </div>
       </div>
-      <Form initialValues={EditDataMockInfo} className="flex flex-wrap">
+      <Form
+        initialValues={editAppInfo}
+        className="flex flex-wrap"
+        form={editForm}
+      >
         <EditMyAppCard title={"基础信息"}>
           <>
             <Item name={FormItemMappings.NAME} label="应用名称">
@@ -218,7 +228,7 @@ const EditMyApp = () => {
           </>
         </EditMyAppCard>
       </Form>
-    </div>
+    </Spin>
   );
 };
 

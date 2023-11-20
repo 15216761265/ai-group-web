@@ -1,74 +1,20 @@
 import { useContext, useState } from "react";
 import classNames from "classnames";
 import "./CreateMyApp.css";
-import { Button, Form, Input, Select, Switch } from "antd";
-import { IHomeRoleModalList } from "@modals/HomeRoleList";
+import { Button, Form, Input, Select, Switch, Upload } from "antd";
 import { MyAppContext } from "../context";
-import { useForm } from "antd/es/form/Form";
-
-const Clssification: IHomeRoleModalList[] = [
-  {
-    id: "1",
-    name: "工作",
-    description: "工作相关",
-    aiRoles: null,
-  },
-  {
-    id: "2",
-    name: "生活",
-    description: "生活相关",
-    aiRoles: null,
-  },
-  {
-    id: "4",
-    name: "客服",
-    description: "客服助手",
-    aiRoles: null,
-  },
-  {
-    id: "9",
-    name: "数字分身",
-    description: "数字分身",
-    aiRoles: null,
-  },
-  {
-    id: "5",
-    name: "动漫",
-    description: "动漫人物",
-    aiRoles: null,
-  },
-  {
-    id: "7",
-    name: "娱乐",
-    description: "娱乐角色",
-    aiRoles: null,
-  },
-  {
-    id: "8",
-    name: "绘画",
-    description: "绘画",
-    aiRoles: null,
-  },
-  {
-    id: "3",
-    name: "其它",
-    description: "其它",
-    aiRoles: null,
-  },
-];
+import { beforeUpload, getBase64 } from "@utils/index";
+import {
+  RcFile,
+  UploadChangeParam,
+  UploadFile,
+  UploadProps,
+} from "antd/es/upload";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { CreateFormItemMappings } from "../hooks/useGetMyApp";
 
 const { Item } = Form;
 const { Option } = Select;
-
-const FormItemMappings = {
-  NAME: "name",
-  DESC: "description",
-  INTRO: "introduction",
-  IMAGE: "headImageUrl",
-  GROUPID: "groupId",
-  PUBLIC: "displayOnAppSquare",
-  PROMPT: "prompt",
-};
 
 type TMyAppCardData = {
   id: string;
@@ -108,11 +54,45 @@ const MyAppCreateCard: React.FC<MyAppCreateCardProps> = ({
 };
 
 const CreateMyApp = () => {
-  const { setIsEdit, setIsCreate } = useContext(MyAppContext);
-  const [type, setType] = useState("PROMPT");
-  const [form] = useForm();
+  const {
+    isCreating,
+    setIsEdit,
+    setIsCreate,
+    createForm,
+    handleAddMyApp,
+    createType: type,
+    setCreateType: setType,
+    roleModalFilterList,
+  } = useContext(MyAppContext);
+  const [imageUrl, setImageUrl] = useState<string>(
+    "http://dummyimage.com/400x400"
+  );
+  const [loading, setLoading] = useState(false);
 
-  const isPublic = Form.useWatch(FormItemMappings.PUBLIC);
+  const isPublic = Form.useWatch(CreateFormItemMappings.PUBLIC);
+
+  const handleChange: UploadProps["onChange"] = (
+    info: UploadChangeParam<UploadFile>
+  ) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj as RcFile, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
 
   return (
     <div className="ai-group-myapp-create">
@@ -128,41 +108,59 @@ const CreateMyApp = () => {
           ))}
         </div>
         <Form
-          form={form}
-          initialValues={{ [FormItemMappings.PUBLIC]: true }}
+          form={createForm}
+          initialValues={{ [CreateFormItemMappings.PUBLIC]: false }}
           onFinish={(value) => {
             console.log("create my app", value);
           }}
         >
-          <Item name={FormItemMappings.NAME} label="应用名称">
+          <Item name={CreateFormItemMappings.NAME} label="应用名称">
             <Input placeholder="给你的应用取一个有趣的名字吧"></Input>
           </Item>
-          <Item name={FormItemMappings.DESC} label="应用描述">
+          <Item name={CreateFormItemMappings.DESC} label="应用描述">
             <Input placeholder="介绍下你的应用吧"></Input>
           </Item>
-          <Item name={FormItemMappings.INTRO} label="开场介绍">
+          <Item name={CreateFormItemMappings.INTRO} label="开场介绍">
             <Input.TextArea placeholder="应用的第一句话。例如:有什么可以帮您的?"></Input.TextArea>
           </Item>
-          <Item name={FormItemMappings.IMAGE} label="应用头像">
-            <Input.TextArea placeholder="应用的第一句话。例如:有什么可以帮您的?"></Input.TextArea>
+          <Item name={CreateFormItemMappings.IMAGE} label="应用头像">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+              beforeUpload={(file: RcFile) => {
+                // setFileList([...fileList, file]);
+                // beforeUpload(file);
+                return false;
+              }}
+              onChange={handleChange}
+            >
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
           </Item>
-          <Item name={FormItemMappings.GROUPID} label="选择分类">
+          <Item name={CreateFormItemMappings.GROUPID} label="选择分类">
             <Select placeholder="请选择应用分类">
-              {Clssification.map((item, index) => (
+              {roleModalFilterList.map((item, index) => (
                 <Option key={index} value={item.id}>
                   {item.name}
                 </Option>
               ))}
             </Select>
           </Item>
-          <Item name={FormItemMappings.PUBLIC} label="是否公开">
+          <Item name={CreateFormItemMappings.PUBLIC} label="是否公开">
             否
             <Switch
               className={classNames("mx-2", !isPublic && "bg-[#dddfe6]")}
             ></Switch>
             是<div>(选是则会显示在应用广场)</div>
           </Item>
-          <Item name={FormItemMappings.PROMPT} label="应用设定">
+          <Item name={CreateFormItemMappings.PROMPT} label="应用设定">
             <Input.TextArea
               placeholder='这是你对机器人的设定和要求，说的越具体效果越好哦。例如："请扮演产品经理岗位的面试官，向我询问关于这个岗位的专业面试问题，一次只需要问一个问题，并等待我的回答。"'
               rows={5}
@@ -181,6 +179,8 @@ const CreateMyApp = () => {
               type="primary"
               className="ai-primary-button w-auto"
               htmlType="submit"
+              onClick={handleAddMyApp}
+              loading={isCreating}
             >
               创建应用
             </Button>

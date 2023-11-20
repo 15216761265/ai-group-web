@@ -1,135 +1,167 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IMyAppList } from "@modals/MyAppList";
-import { useGetMyAppDataList } from "@apis/apiHooks/MyApp";
+import {
+  useGetMyAppDataList,
+  useGetMyAppDetail,
+  usePostAddMyApp,
+} from "@apis/apiHooks/MyApp";
+import { useForm } from "antd/es/form/Form";
+import { openErrorMessage, openSuccessMessage } from "@components/CommonTip";
+import { isEmpty } from "lodash-es";
+import { useGetHomeRoleModalList } from "@apis/apiHooks/Home";
+import { IHomeRoleModalList } from "@modals/HomeRoleList";
 
-const MockMyAppData = {
-  total: 1,
-  list: [
-    {
-      id: 3616,
-      code: "HDffZ4Wg",
-      name: "你的名字",
-      type: "PROMPT",
-      description: "一个随机取名的应用",
-      prompt: "请扮演一个取名字的机器人",
-      headImageUrl:
-        "https://img-1317903499.cos.ap-guangzhou.myqcloud.com/default.png",
-      displayOnAppSquare: "N",
-      introduction: "你好，快来跟我聊天吧",
-      creatorId: 8162,
-      nickName: null,
-      groupId: 2,
-      usageCount: 0,
-      thumbCount: 0,
-      collectCount: 0,
-      dataSets: null,
-      temperature: "0.7",
-      similarity: "MIDDLE",
-      replyStrategy: "REPLY",
-      fixedReplyText: null,
-      supportModelList: [
-        {
-          code: "LinkAI-3.5",
-          name: null,
-          tokensPerScore: 0,
-          maxTokens: 6000,
-          defaultTokens: null,
-          default: true,
-        },
-        {
-          code: "LinkAI-4",
-          name: null,
-          tokensPerScore: 0,
-          maxTokens: 2000,
-          defaultTokens: null,
-          default: false,
-        },
-        {
-          code: "LinkAI-4-turbo",
-          name: null,
-          tokensPerScore: 0,
-          maxTokens: 4000,
-          defaultTokens: null,
-          default: false,
-        },
-        {
-          code: "wenxin",
-          name: null,
-          tokensPerScore: 0,
-          maxTokens: 2000,
-          defaultTokens: null,
-          default: false,
-        },
-        {
-          code: "wenxin-4",
-          name: null,
-          tokensPerScore: 0,
-          maxTokens: 2000,
-          defaultTokens: null,
-          default: false,
-        },
-        {
-          code: "xunfei",
-          name: null,
-          tokensPerScore: 0,
-          maxTokens: 2000,
-          defaultTokens: null,
-          default: false,
-        },
-      ],
-      knowledgeBaseCodes: null,
-      similarityNumber: 0.0,
-      knowledgeBaseSearchRow: null,
-      thumb: false,
-      collect: false,
-      maxContextTurn: 3,
-      enableMultiAgent: "N",
-      displayThought: "N",
-      displayPlugin: "N",
-      maxThoughtTurns: 3,
-      appPluginsInfoVos: null,
-      knowledgeSourcePreference: null,
-    },
-  ],
-  pageNum: 1,
-  pageSize: 1,
-  size: 1,
-  startRow: 0,
-  endRow: 0,
-  pages: 1,
-  prePage: 0,
-  nextPage: 0,
-  isFirstPage: true,
-  isLastPage: true,
-  hasPreviousPage: false,
-  hasNextPage: false,
-  navigatePages: 8,
-  navigatepageNums: [1],
-  navigateFirstPage: 1,
-  navigateLastPage: 1,
+export const CreateFormItemMappings = {
+  NAME: "name",
+  DESC: "description",
+  INTRO: "introduction",
+  IMAGE: "headImageUrl",
+  GROUPID: "groupId",
+  PUBLIC: "displayOnAppSquare",
+  PROMPT: "prompt",
 };
 function useGetMyAppData() {
   const [myAppList, setMyAppList] = useState<IMyAppList[]>();
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCreating, setIsCreating] = useState(false);
+  const [createType, setCreateType] = useState("PROMPT");
   const [isCreate, setIsCreate] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState("");
+  const [editAppInfo, setEditAppInfo] = useState<IMyAppList>({} as IMyAppList);
+  const [isEditAppInfoLoading, setIsEditAppInfoLoading] = useState(false);
+  const [roleModalFilterList, setRoleModalFilterList] = useState<
+    IHomeRoleModalList[]
+  >([]);
+
   const getMyAppData = useGetMyAppDataList();
+  const postAddMyApp = usePostAddMyApp();
+  const getAppDetail = useGetMyAppDetail();
+  const getRoleModalList = useGetHomeRoleModalList();
 
   useEffect(() => {
     (async () => {
-      // const result = await getMyAppData({
-      //   params: {
-      //     pageNo: currentPage,
-      //     pageSize: 100,
-      //   },
-      // });
-      const result = MockMyAppData;
-      setMyAppList(result.list);
+      try {
+        const result = await getRoleModalList({});
+        const data = result.data.data;
+        setRoleModalFilterList(data);
+        //TODO: axios error handle
+      } catch (error: AxiosError<{ code: string; message: string }>) {
+        if (error.code !== "ERR_CANCELED") {
+          openErrorMessage(error?.message);
+        }
+      }
     })();
-  }, []);
+  }, [getRoleModalList, setRoleModalFilterList]);
 
-  return { myAppList, isCreate, setIsCreate, isEdit, setIsEdit, setEditId };
+  const [createForm] = useForm();
+  const [editForm] = useForm();
+
+  const getMyAppDetails = useCallback(async () => {
+    setIsEditAppInfoLoading(true);
+    try {
+      const result = await getAppDetail({
+        params: {
+          code: editId,
+        },
+      });
+      setEditAppInfo(result.data.data);
+    } catch (error) {
+      //TODO
+    } finally {
+      setIsEditAppInfoLoading(false);
+    }
+  }, [editId, getAppDetail]);
+
+  useEffect(() => {
+    if (isEmpty(editId)) {
+      return;
+    }
+    if (isEdit) {
+      getMyAppDetails();
+    }
+  }, [editId, getMyAppDetails, isEdit]);
+
+  const getMyAppList = useCallback(async () => {
+    try {
+      const result = await getMyAppData({
+        data: {
+          pageNo: currentPage,
+          groupId: null,
+          searchValue: null,
+          actionType: null,
+          pageSize: 100,
+        },
+      });
+      const data = result.data.data;
+      setMyAppList(data.list);
+    } catch (error) {
+      //TODO
+    } finally {
+      //TODO: add page loading
+    }
+  }, [currentPage, getMyAppData]);
+
+  useEffect(() => {
+    getMyAppList();
+  }, [currentPage, getMyAppData, getMyAppList]);
+
+  const handleAddMyApp = useCallback(async () => {
+    setIsCreating(true);
+    try {
+      await createForm.validateFields();
+    } catch (error) {}
+    const createData = createForm.getFieldsValue();
+    const {
+      displayOnAppSquare,
+      groupId,
+      headImageUrl,
+      introduction,
+      name,
+      prompt,
+    } = createData;
+    try {
+      const result = await postAddMyApp({
+        data: {
+          displayOnAppSquare,
+          groupId,
+          //TODO: should upload img
+          headImageUrl: "http://dummyimage.com/400x400",
+          introduction,
+          name,
+          type: "do Ut consequat",
+          prompt,
+          description: introduction,
+        },
+      });
+      openSuccessMessage("创建成功");
+      setIsCreate(false);
+      setIsEdit(false);
+      getMyAppList();
+    } catch (error) {
+      //TODO
+    } finally {
+      setIsCreating(false);
+    }
+  }, [createForm, getMyAppList, postAddMyApp]);
+
+  return {
+    myAppList,
+    isCreate,
+    setIsCreate,
+    isEdit,
+    setIsEdit,
+    setEditId,
+    createForm,
+    editForm,
+    handleAddMyApp,
+    createType,
+    setCreateType,
+    isCreating,
+    editAppInfo,
+    isEditAppInfoLoading,
+    roleModalFilterList,
+  };
 }
 
 export default useGetMyAppData;

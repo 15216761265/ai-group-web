@@ -5,9 +5,9 @@ const LoginUsesInfo = atom({
   default: null,
 });
 
-const JwtToken = atom({
-  key: "jwtToken",
-  default: "",
+const IsLogin = atom({
+  key: "IsLogin",
+  default: false,
 });
 
-export { LoginUsesInfo, JwtToken };
+export { LoginUsesInfo, IsLogin };

@@ -10,20 +10,31 @@ import ConsoleMyApp from "@pages/ConsoleMyApp";
 import ConsoleLibrary from "@pages/ConsoleLibrary";
 import Integration from "@pages/ConsoleInte";
 import MyAccount from "@pages/ConsoleMyAccount";
+import { useEffect, useState } from "react";
+import { getCookies } from "@utils/index";
 
 const { Content } = Layout;
 
 const Main = () => {
+  const [isShouldShowLoginPage, setIsShouldShowLoginPage] = useState(true);
+  const token = getCookies("userToken");
+
+  useEffect(() => {
+    if (token) {
+      setIsShouldShowLoginPage(false);
+    }
+  }, [token]);
+
   return (
     <div className="ai-container grid grid-cols-4 gap-4">
       <div className="bg-aiGrey card">
-        <NavBar></NavBar>
+        <NavBar />
       </div>
       <Layout className="col-span-3 card">
         <Content className="overflow-auto">
           <Routes>
-            <Route path="" element={<HomePage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="" element={<HomePage />}></Route>
             <Route path={UserItems.HOME} element={<HomePage />}></Route>
             <Route
               path={`${UserItems.CHAT}/:code?`}
@@ -45,6 +56,7 @@ const Main = () => {
           </Routes>
         </Content>
       </Layout>
+      {isShouldShowLoginPage && <LoginPage />}
     </div>
   );
 };

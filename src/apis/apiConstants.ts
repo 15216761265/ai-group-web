@@ -9,10 +9,12 @@ const ApiConstants = {
 
   API_GET_APP_DETAIL: "/app/detail",
   API_GET_MY_APP: "/app/my",
-  API_POST_CREATE_MY_APP: "/api/chat/web/app/add",
+  API_POST_ADD_MY_APP: "/app/add",
+
+  API_GET_CHAT_STREAM: "/chat/stream",
 };
 
 export const DevURL = "http://localhost:4000";
-export const ProdURL = "";
+export const ProdURL = "http://47.117.127.101:8085";
 
 export default ApiConstants;

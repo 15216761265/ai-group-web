@@ -1,8 +1,11 @@
+.ai-group-home-container {
+  @apply h-[calc(100vh-110px)] overflow-auto pb-2;
+}
 .ai-group-home-content {
   .ai-group-home-filter {
     @apply my-2;
     .ai-group-home-filter-normal {
-      @apply px-2 py-1 text-base font-medium cursor-pointer rounded-md min-w-[30px];
+      @apply px-2 py-0.5 text-base font-medium cursor-pointer rounded-md min-w-[30px];
     }
     .ai-group-home-filter-active {
       @apply bg-[#3f9eff] text-white;

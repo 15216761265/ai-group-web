@@ -7,11 +7,12 @@ import {
   usePostLoginByPhoneNumber,
   usePostRegister,
 } from "@apis/apiHooks/Login";
-import { JwtToken } from "@recoil/atoms/users";
+import { IsLogin } from "@recoil/atoms/users";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { openErrorMessage, openSuccessMessage } from "@components/CommonTip";
 import { AxiosError } from "axios";
+import { setCookies } from "@utils/index";
 
 const { Item } = Form;
 
@@ -23,13 +24,13 @@ enum LoginStatus {
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const loginForm = Form.useForm();
-  const registerForm = Form.useForm();
-  const forgetForm = Form.useForm();
+  const [loginForm] = Form.useForm();
+  const [registerForm] = Form.useForm();
+  const [forgetForm] = Form.useForm();
   const [open, setOpen] = useState(true);
   const [activeStatus, setActiveStatus] = useState(LoginStatus.LOGIN);
-  const [activeTab, setActiveTab] = useState("wechat");
-  const [_, setJwtToken] = useRecoilState(JwtToken);
+  const [activeTab, setActiveTab] = useState("phone");
+  const [_, setIsLogin] = useRecoilState(IsLogin);
 
   const postLoginByPhoneNumber = usePostLoginByPhoneNumber();
   const postRegister = usePostRegister();
@@ -37,8 +38,8 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      await loginForm[0].validateFields();
-      const loginData = loginForm[0].getFieldsValue();
+      await loginForm.validateFields();
+      const loginData = loginForm.getFieldsValue();
       console.log("Login date", loginData);
       const result = await postLoginByPhoneNumber({
         data: {
@@ -49,7 +50,8 @@ const LoginPage = () => {
       console.log("login result", result);
       const token = result.data.data;
       if (token) {
-        setJwtToken(`${token.tokenHead} ${token.token}`);
+        setIsLogin(true);
+        setCookies("userToken", `${token.tokenHead} ${token.token}`);
       }
 
       setOpen(false);
@@ -62,8 +64,8 @@ const LoginPage = () => {
 
   const handleRegister = async () => {
     try {
-      await registerForm[0].validateFields();
-      const registerData = registerForm[0].getFieldsValue();
+      await registerForm.validateFields();
+      const registerData = registerForm.getFieldsValue();
       console.log("register data", registerData);
       const result = await postRegister({
         data: {
@@ -83,8 +85,8 @@ const LoginPage = () => {
 
   const handleForget = async () => {
     try {
-      await forgetForm[0].validateFields();
-      const forgetData = forgetForm[0].getFieldsValue();
+      await forgetForm.validateFields();
+      const forgetData = forgetForm.getFieldsValue();
       console.log("forget data", forgetData);
       const result = await postForget({
         data: {
@@ -130,7 +132,7 @@ const LoginPage = () => {
     >
       {activeStatus === LoginStatus.REGISTER && (
         <div className="mb-2">
-          <Form form={registerForm[0]} layout="vertical">
+          <Form form={registerForm} layout="vertical">
             <Item
               name="registerPhone"
               label="手机号"
@@ -190,7 +192,7 @@ const LoginPage = () => {
               key: "phone",
               children: (
                 <div className="mb-2">
-                  <Form form={loginForm[0]} layout="vertical">
+                  <Form form={loginForm} layout="vertical">
                     <Item
                       name="loginPhone"
                       label="手机号"
@@ -224,7 +226,7 @@ const LoginPage = () => {
 
       {activeStatus === LoginStatus.FORGRT && (
         <div className="mb-2">
-          <Form form={forgetForm[0]} layout="vertical">
+          <Form form={forgetForm} layout="vertical">
             <Item
               name="registerPhone"
               label="手机号"

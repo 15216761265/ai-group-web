@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import RouteHeader from "@components/RouteHeader";
 import { Avatar, Layout, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
@@ -9,14 +9,23 @@ import "./index.css";
 import ChatCom from "./Com/ChatCom";
 import { useRecoilValue } from "recoil";
 import { UserSelectedModals } from "@recoil/atoms/modals";
+import { openWarningMessage } from "@components/CommonTip";
+import { useNavigate } from "react-router-dom";
 
 const ChatPage = () => {
-  //TODO: add router guard
+  const navigate = useNavigate();
   const { code } = useParams();
   const userSelectedModals = useRecoilValue(UserSelectedModals);
   const [activeKeys, setActiveKeys] = useState([
     code || (userSelectedModals.length && userSelectedModals[0].code),
   ]);
+
+  useEffect(() => {
+    if (!userSelectedModals.length) {
+      openWarningMessage("Please select a model!");
+      navigate("/home");
+    }
+  }, [navigate, userSelectedModals.length]);
 
   const getChatInfo = useMemo(() => {
     return userSelectedModals.find((item) => item.code === activeKeys[0]);
@@ -49,6 +58,9 @@ const ChatPage = () => {
   }, [userSelectedModals]);
 
   const getReChatCom = useCallback(() => {
+    if (!getChatInfo) {
+      return;
+    }
     return (
       <ChatCom initialMessage={initialChatMessage} chatInfo={getChatInfo} />
     );

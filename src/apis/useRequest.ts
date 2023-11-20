@@ -1,3 +1,4 @@
+import { getCookies } from "./../utils/index";
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
@@ -7,15 +8,13 @@ import { useCallback, useEffect, useRef } from "react";
 import { merge } from "lodash-es";
 import { DevURL } from "./apiConstants";
 import { useRecoilState } from "recoil";
-import { JwtToken } from "@recoil/atoms/users";
-
-//TODO: add jwt token
+import { IsLogin } from "@recoil/atoms/users";
 
 const useRequest = <R>(initialParams: AxiosRequestConfig = {}) => {
-  const [jwttoken] = useRecoilState(JwtToken);
+  // const [isLogin] = useRecoilState(IsLogin);
+  const token = getCookies("userToken");
   const source = useRef<CancelTokenSource>();
   const refParams = useRef(initialParams);
-  console.log("useRequest");
   const apiRequest = useCallback(
     (requestParams: AxiosRequestConfig) => {
       source.current = axios.CancelToken.source();
@@ -25,13 +24,13 @@ const useRequest = <R>(initialParams: AxiosRequestConfig = {}) => {
           headers: merge(
             {},
             { src: "Application" },
-            jwttoken && { Authorization: jwttoken }
+            token && { Authorization: token }
           ),
           ...refParams.current,
         },
         requestParams
       );
-      console.log("%c useRequest", "backgroud-color:pink", params, jwttoken);
+      // console.log("%c useRequest", "backgroud-color:pink", params, token);
       return axios({
         baseURL: DevURL,
         ...params,
@@ -40,7 +39,7 @@ const useRequest = <R>(initialParams: AxiosRequestConfig = {}) => {
         return res;
       });
     },
-    [jwttoken]
+    [token]
   );
 
   useEffect(() => () => source.current?.cancel(), []);

@@ -1,5 +1,5 @@
 .ai-group-chat-content {
-  @apply h-[calc(100vh-140px)];
+  @apply h-[calc(100vh-110px)];
   .ant-layout {
     @apply h-full rounded-md;
   }
