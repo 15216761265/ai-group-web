@@ -74,7 +74,6 @@ function useGetData() {
   }, [
     currentPage,
     getRoleList,
-    isLogin,
     pageSize,
     selectActionType,
     selectedGroupId,

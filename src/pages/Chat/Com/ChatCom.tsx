@@ -8,6 +8,7 @@ import "./chatui-theme.css";
 import { useCallback } from "react";
 import { openErrorMessage } from "@components/CommonTip";
 import { Avatar } from "antd";
+import CustomizeComposer from "./Composer";
 
 const ChatCom: React.FC<{
   initialMessage: any;
@@ -92,6 +93,7 @@ const ChatCom: React.FC<{
         messages={messages}
         renderMessageContent={renderMessageContent}
         onSend={handleSend}
+        Composer={() => CustomizeComposer(handleSend)}
       />
     </div>
   );

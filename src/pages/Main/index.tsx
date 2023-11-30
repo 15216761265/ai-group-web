@@ -12,6 +12,7 @@ import Integration from "@pages/ConsoleInte";
 import MyAccount from "@pages/ConsoleMyAccount";
 import { useEffect, useState } from "react";
 import { getCookies } from "@utils/index";
+import VoiceRecoginition from "@pages/Recoginition";
 
 const { Content } = Layout;
 
@@ -34,6 +35,7 @@ const Main = () => {
         <Content className="overflow-auto">
           <Routes>
             <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/recognition" element={<VoiceRecoginition />}></Route>
             <Route path="/" element={<HomePage />}></Route>
             <Route path={UserItems.HOME} element={<HomePage />}></Route>
             <Route

@@ -35,7 +35,7 @@ const useRequest = <R>(initialParams: AxiosRequestConfig = {}) => {
       return axios({
         baseURL: isDev ? DevURL : ProdURL,
         ...params,
-        cancelToken: source.current.token,
+        // cancelToken: source.current.token,
       }).then((res: AxiosResponse<R>) => {
         return res;
       });
