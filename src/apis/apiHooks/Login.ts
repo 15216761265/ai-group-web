@@ -22,3 +22,10 @@ export const usePostForget = () => {
     method: "POST",
   });
 };
+
+export const usePostSignin = () => {
+  return useRequest<TResponse>({
+    url: ApiConstants.API_POST_SIGNIN,
+    method: "POST",
+  });
+};

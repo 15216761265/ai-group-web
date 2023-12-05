@@ -24,7 +24,7 @@ export const EmbeddingTypeTag = (
 
 export const ImageTypeTag = (
   <div className="bg-[#ffeff0] border-[#fee2e1] text-[#f56c6c] p-1 rounded-md inline-block">
-    知识库
+    绘画
   </div>
 );
 

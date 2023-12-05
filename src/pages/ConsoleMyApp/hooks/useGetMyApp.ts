@@ -129,7 +129,7 @@ function useGetMyAppData() {
           headImageUrl,
           introduction,
           name,
-          type: "do Ut consequat",
+          type: createType,
           prompt,
           description: introduction,
         },
