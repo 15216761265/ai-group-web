@@ -8,3 +8,10 @@ export const useGetChatStream = () => {
     method: "GET",
   });
 };
+
+export const usePostGenerateImage = () => {
+  return useRequest<TResponse>({
+    url: ApiConstants.API_POST_GENERATE_IMAGINE,
+    method: "POST",
+  });
+};

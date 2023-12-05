@@ -1,5 +1,5 @@
 import "regenerator-runtime";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -15,6 +15,11 @@ const CustomizeComposer = (handleSend) => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
+  const handleSendMsg = useCallback(async () => {
+    await handleSend("text", inputValue);
+    setInputValue("");
+  }, [handleSend, inputValue]);
+
   useEffect(() => {
     if (!listening && transcript) {
       setInputValue(transcript);
@@ -25,18 +30,15 @@ const CustomizeComposer = (handleSend) => {
     return <span>Browser doesn&lsquo;t support speech recognition.</span>;
   }
 
-  const handleSendMsg = async () => {
-    await handleSend("text", inputValue);
-    setInputValue("");
-  };
-
   return (
     <div className="flex items-center">
-      <Input.TextArea
-        rows={1}
+      <Input
         value={inputValue}
         onPressEnter={handleSendMsg}
-      ></Input.TextArea>
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+      ></Input>
       <div className="mx-2">
         {!listening ? (
           <div onClick={() => SpeechRecognition.startListening()}>
@@ -49,7 +51,7 @@ const CustomizeComposer = (handleSend) => {
         )}
       </div>
 
-      <Button onClick={handleSendMsg} disabled={!!inputValue}>
+      <Button onClick={handleSendMsg} disabled={!inputValue}>
         发送
       </Button>
     </div>
