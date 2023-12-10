@@ -55,3 +55,17 @@ export const handleApiError = (error) => {
     openErrorMessage("Oops! Error occurred!");
   }
 };
+
+export const handleDownloadImage = (
+  imgUrl: string,
+  imgName: string = "image"
+) => {
+  const link = document.createElement("a");
+  fetch(imgUrl)
+    .then((res) => res.blob())
+    .then((blob) => {
+      link.href = URL.createObjectURL(blob);
+      link.download = imgName;
+      link.click();
+    });
+};

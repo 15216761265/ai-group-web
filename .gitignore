@@ -9,3 +9,5 @@ logs
 
 .vscode/*
 !.vscode/extensions.json
+
+stats.html

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import RouteHeader from "@components/RouteHeader";
 import { Avatar, Layout, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
@@ -29,7 +29,22 @@ const ChatPage = () => {
     return [
       {
         type: "text",
-        content: { text: getChatInfo?.introduction },
+        content: { text: getChatInfo?.introduction || "快来跟我对话吧！" },
+        user: {
+          avatar: getChatInfo?.headImageUrl,
+        },
+      },
+    ];
+  }, [getChatInfo]);
+
+  const initialImageMessage = useMemo(() => {
+    return [
+      {
+        type: "image",
+        content: {
+          picUrl:
+            "https://midjourney.cdn.zhishuyun.com/attachments/1124768570157564029/1182996417275498566/lienpanya7723_nihao_id1241344_5fa32ecc-df83-48cc-b94f-7ec95153a0d0.png?ex=6586ba44&is=65744544&hm=4012407a4f98b12639d6c92e9d9d7d3fe2515661a6aab44a824db28beffd26b6&width=1024&height=1024",
+        },
         user: {
           avatar: getChatInfo?.headImageUrl,
         },
@@ -61,10 +76,10 @@ const ChatPage = () => {
   }, [getChatInfo, initialChatMessage]);
 
   useEffect(() => {
-    if (userSelectedModals.length) {
+    if (!code && userSelectedModals.length) {
       setActiveKeys(userSelectedModals[0].code);
     }
-  }, [userSelectedModals]);
+  }, [code, userSelectedModals]);
 
   useEffect(() => {
     if (!userSelectedModals.length) {
@@ -75,7 +90,7 @@ const ChatPage = () => {
         const initialChatMess = [
           {
             type: "text",
-            content: { text: modals?.introduction },
+            content: { text: modals?.introduction || "快来跟我对话吧！" },
             user: {
               avatar: modals?.headImageUrl,
             },
@@ -89,6 +104,7 @@ const ChatPage = () => {
               "h-full"
             )}
           >
+            {/* modals.type === "IMAGE" ? initialImageMessage : */}
             <ChatCom initialMessage={initialChatMess} chatInfo={modals} />
           </div>
         );

@@ -1,0 +1,9 @@
+.chat-image-box {
+  @apply flex items-end m-2;
+  img {
+    @apply !rounded-lg;
+  }
+  .chat-image-box-download-icon {
+    @apply ml-2 cursor-pointer;
+  }
+}

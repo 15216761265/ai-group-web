@@ -3,13 +3,22 @@ import Chat, { Bubble, useMessages } from "@chatui/core";
 import "@chatui/core/dist/index.css";
 import { IHomeRoleList } from "@modals/HomeRoleList";
 import showdown from "showdown";
-import { useGetChatStream, usePostGenerateImage } from "@apis/apiHooks/Chat";
+import {
+  useGetChatStream,
+  usePostGenerateImage,
+  usePostMJTask,
+} from "@apis/apiHooks/Chat";
 import "./chatui-theme.css";
-import { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { openErrorMessage } from "@components/CommonTip";
 import { Avatar } from "antd";
 import CustomizeComposer from "./Composer";
 import { DownCircleOutlined } from "@ant-design/icons";
+import { useRequest } from "ahooks";
+import { isEmpty } from "lodash-es";
+import ApiConstants from "@apis/apiConstants";
+import "./ChatCom.css";
+import { handleDownloadImage } from "@utils/index";
 
 const ChatCom: React.FC<{
   initialMessage: any;
@@ -18,8 +27,12 @@ const ChatCom: React.FC<{
   const { messages, appendMsg, setTyping, updateMsg } =
     useMessages(initialMessage);
 
+  const [taskID, setTaskID] = useState<string | undefined>();
+  const [imageStatus, setImageStatus] = useState("");
+
   const getChatResponseInfo = useGetChatStream();
   const postGenerateImage = usePostGenerateImage();
+  const postImageTaskIDStatus = usePostMJTask();
 
   const handleGetChatInfo = useCallback(
     async (prompt: string) => {
@@ -27,7 +40,7 @@ const ChatCom: React.FC<{
         const chatInfoResponse = await getChatResponseInfo({
           params: {
             appCode: chatInfo.code,
-            model: "a",
+            modelCode: "J6ux7xvi",
             plugins: "a",
             prompt: prompt.trim(),
           },
@@ -56,19 +69,62 @@ const ChatCom: React.FC<{
     ]
   );
 
+  const queryImageStatus = useCallback(async () => {
+    if (isEmpty(taskID)) return;
+    try {
+      setImageStatus("Pending");
+      const result = await postImageTaskIDStatus({
+        url: ApiConstants.API_POST_MJ_TASK + `/${taskID}`,
+      });
+      const data = result.data.data;
+      if (data.status === "SUCCESS") {
+        appendMsg({
+          type: "image",
+          content: { picUrl: data.imageUrl },
+          user: { avatar: chatInfo.headImageUrl },
+        });
+        setTyping(false);
+        setImageStatus("Done");
+      }
+    } catch (error) {
+      openErrorMessage("Query Image Status Error");
+    }
+  }, [
+    appendMsg,
+    chatInfo.headImageUrl,
+    postImageTaskIDStatus,
+    setTyping,
+    taskID,
+  ]);
+
+  const { data, loading, run, cancel } = useRequest(queryImageStatus, {
+    manual: true,
+    pollingInterval: 5000,
+  });
+
+  useEffect(() => {
+    if (imageStatus && imageStatus === "Done") {
+      cancel();
+    }
+  }, [cancel, imageStatus]);
+
   const handleGetImage = useCallback(
     async (prompt: string) => {
       try {
         const result = await postGenerateImage({ data: { prompt } }); //to get task id
-        console.log(11111, result);
-        //TODO： 一个轮询
+        if (result.data.code === 200) {
+          setTaskID(result.data.data);
+          run();
+        }
       } catch (error) {
         //TODO
+        openErrorMessage("Get Image TaskID Error");
       } finally {
-        setTyping(false);
+        //TODO: should be here set false?
+        // setTyping(false);
       }
     },
-    [postGenerateImage, setTyping]
+    [postGenerateImage, run]
   );
 
   const handleSend = useCallback(
@@ -78,19 +134,22 @@ const ChatCom: React.FC<{
           type: "text",
           content: { text: val },
           position: "right",
-          user: { avatar: <Avatar></Avatar> }, //TODO :to do recoil,login user info
+          user: {
+            avatar:
+              "https://images.pexels.com/photos/16806729/pexels-photo-16806729.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+          }, //TODO :to do recoil,login user info
         });
 
         setTyping(true);
-        // if (chatInfo.type !== "IMAGE") {
-        await handleGetChatInfo(val);
-        //TODO：wait to integrate the image ,think think
-        // } else {
-        //   await handleGetImage(val);
-        // }
+        if (chatInfo.type !== "IMAGE") {
+          await handleGetChatInfo(val);
+          //TODO：wait to integrate the image ,think think
+        } else {
+          await handleGetImage(val);
+        }
       }
     },
-    [appendMsg, handleGetChatInfo, setTyping]
+    [appendMsg, chatInfo.type, handleGetChatInfo, handleGetImage, setTyping]
   );
 
   const renderMessageContent = (msg) => {
@@ -98,14 +157,20 @@ const ChatCom: React.FC<{
     // const convert = new showdown.Converter();
     if (type === "text") {
       // const children = convert.makeHtml(content.text || "");
-      // console.log("chat content.text", content.text);
-      // console.log("chat content", children);
+
       return <Bubble type="text" content={content.text}></Bubble>;
     } else if (type === "image") {
       return (
         <Bubble type="image">
-          <img src={content.picUrl}></img>
-          <DownCircleOutlined />
+          <div className="chat-image-box">
+            <img src={content.picUrl}></img>
+            <div
+              className="chat-image-box-download-icon"
+              onClick={() => handleDownloadImage(content.picUrl)}
+            >
+              <DownCircleOutlined />
+            </div>
+          </div>
         </Bubble>
       );
     }

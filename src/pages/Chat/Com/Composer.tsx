@@ -1,5 +1,5 @@
 import "regenerator-runtime";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -35,7 +35,7 @@ const CustomizeComposer = (handleSend) => {
       <Input
         value={inputValue}
         onPressEnter={handleSendMsg}
-        onChange={(e) => {
+        onChange={(e: { target: { value: any } }) => {
           setInputValue(e.target.value);
         }}
       ></Input>
@@ -45,7 +45,7 @@ const CustomizeComposer = (handleSend) => {
             <AudioOutlined />
           </div>
         ) : (
-          <div>
+          <div onClick={SpeechRecognition.stopListening}>
             <LoadingOutlined />
           </div>
         )}

@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
 
     /* Linting */
     "strict": true,
@@ -22,17 +22,17 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
 
-    "baseUrl":"src",
-    "paths":{
-      "@pages/*":["pages/*"],
-      "@recoil/*":["recoil/*"],
-      "@components/*":["components/*"],
-      "@assets/*":["assets/*"],
-      "@typings/*":["typings/*"],
-      "@apis/*":["apis/*"],
-      "@modals/*":["modals/*"],
-      "@utils/*":["utils/*"]
-    },
+    "baseUrl": "src",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@recoil/*": ["recoil/*"],
+      "@components/*": ["components/*"],
+      "@assets/*": ["assets/*"],
+      "@typings/*": ["typings/*"],
+      "@apis/*": ["apis/*"],
+      "@modals/*": ["modals/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["server"],

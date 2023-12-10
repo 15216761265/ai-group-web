@@ -20,6 +20,7 @@ const ApiConstants = {
 
   // 绘画
   API_POST_GENERATE_IMAGINE: "/midjourney/imagine",
+  API_POST_MJ_TASK: "/midjourney/task",
 };
 
 export const DevURL = "http://localhost:4000";

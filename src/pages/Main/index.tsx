@@ -1,18 +1,20 @@
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
-import LoginPage from "@pages/Login";
 import NavBar, { UserItems } from "@pages/NavBar";
 import "./index.css";
-import HomePage from "@pages/Home";
-import ChatPage from "@pages/Chat";
-import PaintPage from "@pages/Paint";
-import ConsoleMyApp from "@pages/ConsoleMyApp";
-import ConsoleLibrary from "@pages/ConsoleLibrary";
-import Integration from "@pages/ConsoleInte";
-import MyAccount from "@pages/ConsoleMyAccount";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getCookies } from "@utils/index";
 import VoiceRecoginition from "@pages/Recoginition";
+import loadable from "@loadable/component";
+
+const LoginPage = loadable(() => import("@pages/Login"));
+const HomePage = loadable(() => import("@pages/Home"));
+const ChatPage = loadable(() => import("@pages/Chat"));
+const PaintPage = loadable(() => import("@pages/Paint"));
+const ConsoleMyApp = loadable(() => import("@pages/ConsoleMyApp"));
+const ConsoleLibrary = loadable(() => import("@pages/ConsoleLibrary"));
+const Integration = loadable(() => import("@pages/ConsoleInte"));
+const MyAccount = loadable(() => import("@pages/ConsoleMyAccount"));
 
 const { Content } = Layout;
 
