@@ -1,3 +1,4 @@
+import React, { useCallback, useEffect, useState } from "react";
 import { Menu, Divider } from "antd";
 import {
   BackHomeIcon,
@@ -11,7 +12,6 @@ import {
   MyAccountIcon,
   PaintIcon,
 } from "@components/Lib/Icon";
-import { useCallback, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import logo from "@assets/logo-w.png";
 import "./index.css";
@@ -22,6 +22,8 @@ export enum UserItems {
   CHAT = "/chat",
   PAINT = "/paint",
   CREATE = "/myapp",
+  CREATETEXT = "/createtext",
+  CREATEPIC = "/createpic",
 }
 
 export enum CreateItems {
@@ -73,6 +75,26 @@ const userItems = [
     icon: <CreateIcon />,
     key: UserItems.CREATE,
   },
+  // {
+  //   title: "创建文案",
+  //   label: (
+  //     <Link to={UserItems.CREATETEXT} className="ai-router-title">
+  //       创建文案
+  //     </Link>
+  //   ),
+  //   icon: <CreateIcon />,
+  //   key: UserItems.CREATETEXT,
+  // },
+  // {
+  //   title: "修改图片",
+  //   label: (
+  //     <Link to={UserItems.CREATEPIC} className="ai-router-title">
+  //       修改图片
+  //     </Link>
+  //   ),
+  //   icon: <CreateIcon />,
+  //   key: UserItems.CREATEPIC,
+  // },
 ];
 
 const createItems = [

@@ -1,10 +1,12 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Divider, Avatar, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import "./index.css";
 import { useRecoilValue } from "recoil";
 import { LoginUsesInfo } from "@recoil/atoms/users";
+import { usePostSignin } from "@apis/apiHooks/Login";
+import { openErrorMessage, openSuccessMessage } from "@components/CommonTip";
 
 const HeaderMap = {
   home: "Home",
@@ -20,11 +22,24 @@ const RouteHeader = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const userInfo = useRecoilValue(LoginUsesInfo);
+  const userSignin = usePostSignin();
 
   const getTitle = useCallback(() => {
     const route = pathname.split("/");
     return HeaderMap[route[route.length - 1]] || "Home";
   }, [pathname]);
+
+  const handleEveryDaySignin = useCallback(async () => {
+    try {
+      const result = await userSignin({});
+      if (result) {
+        openSuccessMessage("签到成功");
+      }
+      //TODO: 已签到的情况
+    } catch (error) {
+      openErrorMessage("签到失败");
+    }
+  }, [userSignin]);
 
   const avatarMenu: MenuProps["items"] = [
     {
@@ -46,9 +61,9 @@ const RouteHeader = () => {
     {
       key: "3",
       label: (
-        <Link to={"/home"} className="ai-router-title">
+        <div onClick={handleEveryDaySignin} className="ai-router-title">
           每日签到
-        </Link>
+        </div>
       ),
     },
     {

@@ -1,9 +1,15 @@
 const ApiConstants = {
   // 用户
-  API_POST_REGISTER: "/member/sso/register",
-  API_POST_LOGIN: "/member/sso/login",
-  API_POST_FORGET: "/forget",
-  API_POST_SIGNIN: "/member/signIn", //签到
+  API_POST_REGISTER: "/sso/register",
+  API_POST_LOGIN: "/sso/login",
+  API_POST_FORGET: "sso/forget",
+
+  API_POST_SIGNIN: "/user/signIn", //签到
+  API_POST_UPDATE_INFO: "/user/updateInfo",
+  API_GET_INFO: "/user/info",
+  API_POST_LIST_INCOME: "/user/listIncome",
+  API_POST_LIST_INVOKE: "/user/listInvoke",
+  API_POST_LIST_ORDER: "/user/listOrder",
 
   // 模型
   API_GET_ROLE_MODAL: "/app/group/list",
